@@ -1,0 +1,34 @@
+:root {
+  --background-color: #121212;
+  --secondary-color: #3aa0e4;
+  --darkmode-text-color: #c0c1c2;
+  --lightmode-text-color: #2c3e50;
+  --font-family: "Playfair Display", serif;
+  --gray-text-color: #a4acad;
+  --light-background-color: #ffffff;
+  --border-background-color: #252525;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--darkmode-text-color);
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+}
+
+.lightmode {
+  color: var(--lightmode-text-color);
+  background-color: var(--light-background-color);
+}
+
+span {
+  color: var(--secondary-color);
+}
+
+.gray-text {
+  color: var(--gray-text-color);
+}
+.borderBackground {
+  background-color: var(--border-background-color);
+}
