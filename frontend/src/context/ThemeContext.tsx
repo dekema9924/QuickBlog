@@ -9,6 +9,7 @@ const ThemeContext = createContext({
     toggleDarkMode: () => { },
     isOpen: false,
     toggleMenu: () => { },
+    setIsOpen: (value: boolean | ((prev: boolean) => boolean)) => { }
 });
 
 
@@ -33,7 +34,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, [isDarkMode]);
 
     return (
-        <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode, isOpen, toggleMenu }}>
+        <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode, isOpen, toggleMenu, setIsOpen }}>
             {children}
         </ThemeContext.Provider>
     );

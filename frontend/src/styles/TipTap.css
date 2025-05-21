@@ -1,0 +1,17 @@
+/* Remove outline */
+.ProseMirror:focus {
+  outline: none;
+}
+
+/* Editor styles */
+.ProseMirror {
+  color: black; /* Text color set to black */
+  min-height: 400px;
+  width: 100%;
+  background-color: white;
+  padding: 1rem;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
