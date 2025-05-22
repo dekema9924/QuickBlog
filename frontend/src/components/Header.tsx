@@ -1,5 +1,4 @@
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-// import SearchIcon from '@mui/icons-material/Search';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import { useThemeContext } from '../context/ThemeContext';
@@ -8,12 +7,15 @@ import Line from './Line';
 import { useState } from 'react';
 import { useModalContext } from '../context/ModalContext';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 const Header = () => {
     const { isDarkMode, toggleDarkMode, isOpen, toggleMenu, setIsOpen } = useThemeContext();
     const [isVisible, setIsVisible] = useState(false);
     const { toggleModal } = useModalContext();
+    const location = useLocation();
+    const isSignupPage = location.pathname === '/signup' || location.pathname === '/signin';
 
     const handleMenu = () => {
         setIsOpen(false);
@@ -30,16 +32,10 @@ const Header = () => {
             <div className='gray-text flex items-center gap-4 relative '>
 
                 {/* //add new post */}
-                <div onClick={() => toggleModal()} onMouseOut={() => setIsVisible(false)} onMouseOver={() => setIsVisible(true)} className='relative '>
+                <div onClick={() => toggleModal()} onMouseOut={() => setIsVisible(false)} onMouseOver={() => setIsVisible(true)} className={`relative ${isSignupPage ? "hidden" : "block"} `}>
                     <span className='cursor-pointer '><PostAddIcon sx={{ fontSize: 28 }} /></span>
                     <p className={`text-sm border ${isDarkMode === 'light' ? "bg-black text-white" : "bg-white text-black "} text-center ${isVisible ? "opacity-80" : "opacity-0"} rounded-md absolute w-17 right-0 top-5`}>Add Post</p>
                 </div>
-
-
-                {/* <SearchIcon className='hover:text-white' sx={{ fontSize: 30, cursor: 'pointer', }} /> */}
-                {/* search */}
-
-
 
                 {
                     isDarkMode === 'light' ? (

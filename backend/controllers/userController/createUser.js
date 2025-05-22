@@ -18,7 +18,8 @@ const createUser = async (req, res) => {
         }
         const user = new User({
             email: email,
-            password: hash
+            password: hash,
+            username: email.split('@')[0],
         })
         await user.save()
             .then(() => {

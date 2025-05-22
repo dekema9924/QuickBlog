@@ -5,10 +5,14 @@ import { Routes, Route } from 'react-router-dom'
 import BlogDetails from "./pages/BlogDetails"
 import { useModalContext } from "./context/ModalContext"
 import AddPost from "./pages/AddPost"
+import SignIn from "./pages/SignIn"
+import SignUp from "./pages/SignUp"
 
 
 function App() {
   const { isModalOpen } = useModalContext()
+
+
 
   return (
     <>
@@ -21,10 +25,13 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Blogs />} />
                   <Route path="/blog/:id" element={<BlogDetails />} />
+                  <Route path="/signin" element={<SignIn />} />
+                  <Route path="/signup" element={<SignUp />} />
+
+
                 </Routes>
               </>
           }
-
         </div>
 
       </div>
