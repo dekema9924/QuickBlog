@@ -8,6 +8,14 @@ const userProfile = require('../controllers/userController/userProfile')
 const createUser = require('../controllers/userController/createUser');
 const signIn = require('../controllers/userController/signIn');
 const SignOut = require('../controllers/userController/SignOut');
+const Upload = require('../controllers/userController/Upload');
+
+// multer
+const storage = require('../utils/multer')
+const multer = require('multer')
+const upload = multer({ storage: storage })
+
+
 
 
 
@@ -17,11 +25,14 @@ userRouter.get('/profile', verifyToken, userProfile);
 userRouter.post('/signup', createUser);
 userRouter.post('/signin', signIn)
 userRouter.post('/signout', verifyToken, SignOut)
+userRouter.post('/upload', verifyToken, upload.single('avatar'), Upload)
 
 
 userRouter.get('/', verifyToken, (req, res) => {
     res.send('Hello from user router');
 })
+
+
 
 
 

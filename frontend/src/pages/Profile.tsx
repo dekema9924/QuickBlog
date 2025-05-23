@@ -1,11 +1,55 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '../store/Store'
 import LogOutButton from '../components/LogOutButton'
-
+import { useRef } from 'react'
+import { APIURL } from '../config/Url'
+import axios from 'axios'
+import { setUser } from '../features/userSlice'
 
 const Profile = () => {
     const user = useSelector((state: RootState) => (state.user.user))
-    console.log(user?.profilePicture)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+    const dispatch = useDispatch()
+
+
+
+
+    //upload image to the server
+    const HandleImageChange = async () => {
+        const file = fileInputRef.current?.files?.[0]
+
+
+        if (!file) return;
+
+
+        const formData = new FormData();
+        if (file) {
+            formData.append('avatar', file);
+        }
+
+        try {
+            await axios.post(`${APIURL.baseUrl}/auth/upload`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+                withCredentials: true,
+            }).then((res) => {
+                console.log("Uploaded successfully:", res.data);
+                dispatch(setUser({ profilePicture: res.data.message }))
+                window.location.reload()
+
+            })
+
+        } catch (err) {
+            console.error(err);
+        }
+
+    }
+
+    const handleImageClick = () => {
+        console.log(fileInputRef.current)
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
 
     return (
         <div className="flex flex-col mt-22 md:mt-10 h-[75vh]">
@@ -14,11 +58,26 @@ const Profile = () => {
 
             <section>
                 <div className="flex flex-col items-center mt-8">
-                    <img
-                        src={user?.profilePicture || 'https://via.placeholder.com/150'}
-                        alt="Profile"
-                        className="w-32 h-32 rounded-full border-2 border-gray-700 cursor-pointer hover:scale-105 transition-transform duration-300"
-                    />
+                    <div className='flex flex-col items-center gap-3'>
+                        {/* Hidden file input */}
+                        <input
+                            type="file"
+                            name='avatar'
+                            accept="image/*"
+                            onChange={HandleImageChange}
+                            ref={fileInputRef}
+                            className="hidden"
+                        />
+                        <button>Upload image</button>
+
+                        {/* Clickable profile image */}
+                        <img
+                            src={user?.profilePicture || 'https://via.placeholder.com/150'}
+                            alt="click to add profile"
+                            className="w-32 h-32 rounded-full text-center  pt-8 border-2 border-gray-700 cursor-pointer hover:scale-105 transition-transform duration-300"
+                            onClick={handleImageClick}
+                        />
+                    </div>
                     <h2 className="mt-4 text-xl font-semibold">{user?.username}</h2>
                     <p className="text-gray-400">{user?.email}</p>
                     <p className="text-gray-400 capitalize">{user?.role}</p>
