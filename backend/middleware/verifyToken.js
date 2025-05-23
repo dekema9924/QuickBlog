@@ -11,7 +11,6 @@ const verifyToken = (req, res, next) => {
             return res.status(403).json({ message: 'Forbidden' });
         }
         req.user = decoded;
-        console.log({ decoded: decoded });
         next();
     });
 }

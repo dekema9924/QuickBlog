@@ -7,14 +7,16 @@ const createToken = require('../utils/createToken')
 const userProfile = require('../controllers/userController/userProfile')
 const createUser = require('../controllers/userController/createUser');
 const signIn = require('../controllers/userController/signIn');
+const SignOut = require('../controllers/userController/SignOut');
 
 
 
 
 //user router
 userRouter.get('/profile', verifyToken, userProfile);
-userRouter.post('/register', createUser);
-userRouter.post('/login', signIn)
+userRouter.post('/signup', createUser);
+userRouter.post('/signin', signIn)
+userRouter.post('/signout', verifyToken, SignOut)
 
 
 userRouter.get('/', verifyToken, (req, res) => {

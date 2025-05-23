@@ -7,14 +7,22 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useThemeContext } from '../context/ThemeContext';
 import GoogleIcon from '@mui/icons-material/Google';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { APIURL } from '../config/Url';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 function SignIn() {
-    const [isPasswordVisible, setIsPasswordVisible] = useState("text")
+    const navigate = useNavigate()
+    const [isPasswordVisible, setIsPasswordVisible] = useState("password")
     const { isDarkMode } = useThemeContext()
     const [inputValue, setInputValue] = useState({
         email: "",
-        password: ""
+        password: "",
+
     })
 
     //handle input change
@@ -27,13 +35,44 @@ function SignIn() {
 
     //handle form submit
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        const email = inputValue.email
+        const password = inputValue.password
         e.preventDefault()
-        console.log(inputValue)
+
+        //check if email and password are valid
+        if (!email) {
+            toast.error("Please enter a valid email")
+            return
+        }
+        if (!password) {
+            toast.error("Please enter a strong password")
+            return
+        }
+
+        axios.post(`${APIURL.baseUrl}/auth/signin`, {
+            email: inputValue.email,
+            password: inputValue.password
+        }, {
+            withCredentials: true
+        }).then((res) => {
+            if (res.status === 200) {
+                toast.success(res.data.message)
+                navigate("/")
+                window.location.reload()
+
+            }
+        }).catch((err) => {
+            toast.error(err.response.data.message)
+        })
+
     }
 
     //google sign in
     const handleGoogleSignIn = () => {
-        window.open("http://localhost:3000/auth/google", "_self")
+        const newWindow = window.open("http://localhost:3000/auth/google", "_self");
+        if (!newWindow) {
+            toast.error("Failed to open the authentication window.");
+        }
     }
 
 
@@ -78,7 +117,7 @@ function SignIn() {
 
                     {/* //oAuth login */}
                     <div>
-                        <button onClick={() => handleGoogleSignIn()} className={`border w-66 justify-center cursor-pointer  my-2 h-9 rounded-md ${isDarkMode === 'light' ? "bg-black text-white" : "bg-white text-black"} flex items-center gap-1`}>
+                        <button onClick={handleGoogleSignIn} className={`border w-66 justify-center cursor-pointer  my-2 h-9 rounded-md ${isDarkMode === 'light' ? "bg-black text-white" : "bg-white text-black"} flex items-center gap-1`}>
                             <GoogleIcon sx={{ fontSize: 20 }} /> Continue with Google
                         </button>
 

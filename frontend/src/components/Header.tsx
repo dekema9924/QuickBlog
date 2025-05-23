@@ -7,15 +7,21 @@ import Line from './Line';
 import { useState } from 'react';
 import { useModalContext } from '../context/ModalContext';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../store/Store';
+import { selectUserRole } from '../features/userSlice';
+import LogOutButton from './LogOutButton';
+
 
 
 const Header = () => {
     const { isDarkMode, toggleDarkMode, isOpen, toggleMenu, setIsOpen } = useThemeContext();
     const [isVisible, setIsVisible] = useState(false);
     const { toggleModal } = useModalContext();
-    const location = useLocation();
-    const isSignupPage = location.pathname === '/signup' || location.pathname === '/signin';
+    const userRole = useSelector(selectUserRole);
+    const user = useSelector((state: RootState) => state.user.user);
+    const isMember = userRole === 'member' || userRole === 'admin';
+
 
     const handleMenu = () => {
         setIsOpen(false);
@@ -32,7 +38,7 @@ const Header = () => {
             <div className='gray-text flex items-center gap-4 relative '>
 
                 {/* //add new post */}
-                <div onClick={() => toggleModal()} onMouseOut={() => setIsVisible(false)} onMouseOver={() => setIsVisible(true)} className={`relative ${isSignupPage ? "hidden" : "block"} `}>
+                <div onClick={() => toggleModal()} onMouseOut={() => setIsVisible(false)} onMouseOver={() => setIsVisible(true)} className={`relative ${isMember ? "block" : "hidden"} `}>
                     <span className='cursor-pointer '><PostAddIcon sx={{ fontSize: 28 }} /></span>
                     <p className={`text-sm border ${isDarkMode === 'light' ? "bg-black text-white" : "bg-white text-black "} text-center ${isVisible ? "opacity-80" : "opacity-0"} rounded-md absolute w-17 right-0 top-5`}>Add Post</p>
                 </div>
@@ -61,8 +67,24 @@ const Header = () => {
                         <Link onClick={() => handleMenu()} to={'/standardposts'}>Standard Post</Link>
                         <Link onClick={() => handleMenu()} to={'/memberspost'}>Members Post</Link>
                         <Line className='my-2 w-11/12' />
-                        <Link onClick={() => handleMenu()} to={'/subscribe'}>Subscribe</Link>
-                        <Link onClick={() => handleMenu()} to={'/signin'}>Sign In</Link>
+                        {
+                            user?._id && (
+                                <>
+                                    <Link onClick={() => handleMenu()} to={'/my-posts'}>My Posts</Link>
+                                    <Link onClick={() => handleMenu()} to={'/profile'}>My Profile</Link>
+                                    <LogOutButton />
+
+                                </>
+                            )
+                        }
+                        {
+                            !user?._id && (
+                                <>
+                                    <Link onClick={() => handleMenu()} to={'/signup'}>Sign Up</Link>
+                                    <Link onClick={() => handleMenu()} to={'/signin'}>Sign In</Link>
+                                </>
+                            )
+                        }
                     </ul>
                 </nav>
 

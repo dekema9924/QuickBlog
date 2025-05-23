@@ -15,9 +15,11 @@ passport.use(new GoogleStrategy({
             if (!user) {
                 user = await User.create({
                     googleId: profile.id,
-                    displayName: profile.displayName,
+                    username: profile.displayName,
                     profilePicture: profile.photos[0].value,
+                    role: 'member',
                 });
+
 
             }
 

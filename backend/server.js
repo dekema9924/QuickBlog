@@ -7,6 +7,24 @@ require('./config/mongoose')
 require('./config/passport')
 var cookieParser = require('cookie-parser')
 require('./Strategy/LocalStrategy')
+const cors = require('cors');
+
+
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://quickblog.netlify.app"
+];
+// CORS configuration
+// Allow requests from the specified origins
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true
+}));
 
 
 

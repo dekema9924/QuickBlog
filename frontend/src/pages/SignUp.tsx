@@ -8,10 +8,16 @@ import { useThemeContext } from '../context/ThemeContext';
 import GoogleIcon from '@mui/icons-material/Google';
 import { Link } from 'react-router-dom';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
+import validator from 'validator';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { APIURL } from '../config/Url';
+import { useNavigate } from 'react-router-dom';
 
 
 function SignUp() {
-    const [isPasswordVisible, setIsPasswordVisible] = useState("text")
+    const navigate = useNavigate()
+    const [isPasswordVisible, setIsPasswordVisible] = useState("password")
     const { isDarkMode } = useThemeContext()
     const [inputValue, setInputValue] = useState({
         email: "",
@@ -29,7 +35,32 @@ function SignUp() {
     //handle form submit
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(inputValue)
+        const email = validator.isEmail(inputValue.email)
+        const password = validator.isStrongPassword(inputValue.password)
+
+        //check if email and password are valid
+        if (!email) {
+            toast.error("Please enter a valid email")
+            return
+        }
+        if (!password) {
+            toast.error("Please enter a strong password")
+            return
+        }
+        axios.post(`${APIURL.baseUrl}/auth/signup`, {
+            email: inputValue.email,
+            password: inputValue.password
+        }, {
+            withCredentials: true
+        }).then((res) => {
+            if (res.status === 201) {
+                console.log(res)
+                toast.success(res.data.message)
+                navigate("/signin")
+            }
+        }).catch((err) => {
+            toast.error(err.response.data.message)
+        })
     }
     //google sign in
     const handleGoogleSignIn = () => {
@@ -77,7 +108,7 @@ function SignUp() {
 
                     {/* //oAuth login */}
                     <div>
-                        <button onClick={() => handleGoogleSignIn()} className={`border w-66 justify-center cursor-pointer  my-6 h-9 rounded-md ${isDarkMode === 'light' ? "bg-black text-white" : "bg-white text-black"} flex items-center gap-1`}>
+                        <button onClick={handleGoogleSignIn} className={`border w-66 justify-center cursor-pointer  my-6 h-9 rounded-md ${isDarkMode === 'light' ? "bg-black text-white" : "bg-white text-black"} flex items-center gap-1`}>
                             <GoogleIcon sx={{ fontSize: 20 }} /> Continue with Google
                         </button>
 

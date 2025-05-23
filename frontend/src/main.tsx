@@ -5,13 +5,20 @@ import App from './App.tsx'
 import { ThemeProvider } from './context/ThemeContext.tsx'
 import { BrowserRouter } from 'react-router-dom'
 import { ModalProvider } from './context/ModalContext.tsx'
+import store from './store/Store.tsx'
+import { Provider } from 'react-redux'
+
+
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter >
       <ThemeProvider>
         <ModalProvider>
-          <App />
+          <Provider store={store}>
+            <App />
+          </Provider>
         </ModalProvider>
       </ThemeProvider>
     </BrowserRouter>

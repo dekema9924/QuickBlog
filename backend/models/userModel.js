@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         sparse: true,
     },
-    displayName: {
+    username: {
         type: String,
         trim: true,
     },
@@ -27,30 +27,14 @@ const userSchema = new mongoose.Schema({
         unique: true,
         sparse: true,
     },
-    username: {
-        type: String,
-        unique: true,
-        sparse: true,
-        trim: true,
-        minlength: 3,
-        maxlength: 30,
-    },
+
     password: {
         type: String,
         minlength: 6,
     },
-    isMember: {
-        type: Boolean,
-        default: false,
-    },
-    isAdmin: {
-        type: Boolean,
-        default: false,
-    },
-    isVerified: {
-        type: Boolean,
-        default: false,
-    },
+    role: { type: String, enum: ['standard', 'member', 'admin'], default: 'standard' },
+
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

@@ -20,9 +20,11 @@ const createUser = async (req, res) => {
             email: email,
             password: hash,
             username: email.split('@')[0],
+            role: "member",
         })
         await user.save()
             .then(() => {
+                console.log("User created: ", user);
                 res.status(201).json({ message: "User created successfully" })
             })
             .catch((err) => {
