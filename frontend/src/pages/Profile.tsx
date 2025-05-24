@@ -10,6 +10,8 @@ const Profile = () => {
     const user = useSelector((state: RootState) => (state.user.user))
     const fileInputRef = useRef<HTMLInputElement>(null)
     const dispatch = useDispatch()
+    console.log(user?.profilePicture)
+
 
 
 
@@ -74,7 +76,7 @@ const Profile = () => {
                         <img
                             src={user?.profilePicture || 'https://via.placeholder.com/150'}
                             alt="click to add profile"
-                            className="w-32 h-32 rounded-full text-center  pt-8 border-2 border-gray-700 cursor-pointer hover:scale-105 transition-transform duration-300"
+                            className="w-32 h-32 rounded-full text-center object-cover border-2 border-gray-700 cursor-pointer hover:scale-105 transition-transform duration-300"
                             onClick={handleImageClick}
                         />
                     </div>

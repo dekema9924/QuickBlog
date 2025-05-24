@@ -8,6 +8,7 @@ require('./config/passport')
 var cookieParser = require('cookie-parser')
 require('./Strategy/LocalStrategy')
 const cors = require('cors');
+const blogsRouter = require('./routes/blogsRouter');
 
 
 const allowedOrigins = [
@@ -33,6 +34,7 @@ app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/auth', userRouter)
+app.use('/blogs', blogsRouter)
 
 
 

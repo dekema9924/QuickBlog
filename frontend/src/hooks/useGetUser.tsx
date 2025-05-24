@@ -19,6 +19,7 @@ function useGetUser() {
                 dispatch({ type: 'user/setUser', payload: response.data.userStatus })
                 console.log(response.data)
                 setLoading(false)
+
             } catch (err: any) {
                 setError(err)
                 setLoading(false)

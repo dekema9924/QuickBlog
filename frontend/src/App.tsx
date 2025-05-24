@@ -12,6 +12,7 @@ import useGetUser from "./hooks/useGetUser"
 import Profile from "./pages/Profile"
 import { ProtectedRoutes } from "./ProtectiveRoutes/ProtectedRoute"
 import { NormalRoutes } from "./ProtectiveRoutes/ProtectedRoute"
+import MembersPosts from "./pages/MembersPosts"
 
 function App() {
   useGetUser()
@@ -37,11 +38,21 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Blogs />} />
                   <Route path="/blog/:id" element={<BlogDetails />} />
-                  <Route path="/profile" element={<Profile />} /> =
-                  <Route path="/signin" element={<SignIn />} />
-                  <Route path="/signup" element={<SignUp />} />
-                </Routes>
+                  <Route path="/memberspost" element={<MembersPosts />} />
 
+
+                  {/* Routes for NOT logged-in users */}
+                  <Route element={<NormalRoutes />}>
+                    <Route path="/signin" element={<SignIn />} />
+                    <Route path="/signup" element={<SignUp />} />
+                  </Route>
+
+                  {/* Routes for logged-in users */}
+                  <Route element={<ProtectedRoutes />}>
+                    <Route path="/profile" element={<Profile />} />
+
+                  </Route>
+                </Routes>
               </>
           }
         </div>

@@ -1,23 +1,28 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-
 interface UserState {
     user: {
-        _id: string;
-        username: string;
-        role: string
-        email: string;
-        profilePicture: string;
-        createdAt: string;
-        updatedAt: string;
+        _id: string | null;
+        username: string | null;
+        role: string;
+        email: string | null;
+        profilePicture: string | null;
+        createdAt: string | null;
+        updatedAt: string | null;
     } | null;
-    isLoggedIn: boolean;
 }
 
 const initialState: UserState = {
-    user: null,
-    isLoggedIn: false,
+    user: {
+        _id: null,
+        username: null,
+        role: "standard",
+        email: null,
+        profilePicture: null,
+        createdAt: null,
+        updatedAt: null,
+    },
 };
 
 export const userSlice = createSlice({
@@ -26,11 +31,10 @@ export const userSlice = createSlice({
     reducers: {
         setUser: (state, action) => {
             state.user = action.payload;
-            state.isLoggedIn = true;
+
         },
         clearUser: (state) => {
             state.user = null;
-            state.isLoggedIn = false;
         },
     }
 
