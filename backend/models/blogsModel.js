@@ -11,7 +11,7 @@ const blogSchema = new mongoose.Schema({
         default: 'standard',  // optional default
     },
     content: {
-        type: Object,  // store JSON from tiptap here
+        type: String,
         required: true,
     },
     author: {

@@ -20,6 +20,7 @@ export interface BlogDataInterface {
         profilePicture: string;
     };
     tag: string;
+    user: string;
 }
 
 function Blogs() {
@@ -86,9 +87,10 @@ function Blogs() {
                                     <span className='capitalize font-bold'>{blog.author.username}</span> on{' '}
                                     <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
                                 </p>
-                                {/* Render sanitized HTML content here */}
+
+                                {/* Rendered sanitized HTML content */}
                                 <div
-                                    className='md:w-8/12 text-sm text-gray-700 dark:text-gray-300 line-clamp-3 mt-4'
+                                    className=' overflow-hidden md:w-8/12 text-sm  line-clamp-4 mt-4'
                                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
                                 />
                             </Link>

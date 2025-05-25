@@ -2,18 +2,21 @@ const Blogdb = require('../../models/blogsModel');
 const Userdb = require('../../models/userModel')
 
 const addBlogs = async (req, res) => {
-    try {
-        const { title, tag, content } = req.body;
+    console.log(req.body)
+    const { content } = req.body
 
-        if (!title || !tag || !content) {
-            return res.status(400).json({ message: 'Title, tag, and content are required' });
+
+
+    try {
+        if (content.length < 0) {
+            return res.status(400).json({ message: "content cannot be empty!" })
         }
 
         //get author
         await Userdb.findById(req.user.id).then(async (result) => {
             const newBlog = new Blogdb({
-                title,
-                tag,
+                title: content.slice(0, 50),
+                // tag,
                 content,
                 user: req.user.id,
                 author: {
@@ -24,19 +27,19 @@ const addBlogs = async (req, res) => {
             });
 
             console.log(newBlog)
-
             const savedBlog = await newBlog.save();
 
             return res.status(201).json(savedBlog);
         })
 
-
-
-
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error adding blog:', error);
         return res.status(500).json({ message: 'Server error' });
+
     }
+
+
 };
 
 module.exports = addBlogs

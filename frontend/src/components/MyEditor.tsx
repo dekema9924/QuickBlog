@@ -9,7 +9,18 @@ import { useModalContext } from '../context/ModalContext'
 import axios from 'axios'
 import { APIURL } from '../config/Url'
 import toast from 'react-hot-toast'
-import MenuBar from './MenuBar' // ✅ You need to pass editor to this!
+import MenuBar from './MenuBar'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import EditorSubmitBtns from './EditorSubmitBtns'
+
+//  Added type for props
+interface MyEditorProps {
+    content: string
+    onChange: (value: string) => void
+    isEditMode?: boolean  // optional; defaults to false
+
+}
 
 const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -20,22 +31,19 @@ const extensions = [
     }),
 ]
 
-const content = `
-<h2>Hi there,</h2>
-
-<p>this is a <em>basic</em> example of <strong>Tiptap</strong>...</p>
-<ul><li>That’s a bullet list</li><li>With two items</li></ul>
-<pre><code class="language-css">body { display: none; }</code></pre>
-<blockquote>Wow, that’s amazing! — Mom</blockquote>
-`
-
-export default () => {
+//  Accept props
+export default function MyEditor({ content, onChange, isEditMode = false }: MyEditorProps) {
     const { isDarkMode } = useThemeContext()
     const { setIsModalOpen } = useModalContext()
+    const navigate = useNavigate()
 
     const editor = useEditor({
         extensions,
         content,
+        onUpdate: ({ editor }) => {
+            const html = editor.getHTML()
+            onChange(html)
+        },
         editorProps: {
             attributes: {
                 class: isDarkMode === 'dark' ? 'tiptap dark' : 'tiptap light',
@@ -43,13 +51,21 @@ export default () => {
         },
     })
 
+    //  Update editor content if `content` prop changes externally
+    useEffect(() => {
+        if (editor && content !== editor.getHTML()) {
+            editor.commands.setContent(content)
+        }
+    }, [content, editor])
+
     const handleSubmit = async () => {
         if (!editor) return
         const htmlContent = editor.getHTML()
         try {
-            const res = await axios.post(`${APIURL.baseUrl}/blogs/addblog`, { content: htmlContent }, { withCredentials: true })
+            await axios.post(`${APIURL.baseUrl}/blogs/addblog`, { content: htmlContent }, { withCredentials: true })
             toast.success('blog added')
             setIsModalOpen(false)
+            navigate('/')
         } catch (error) {
             console.error('Error submitting blog:', error)
             toast.error('Failed to submit blog.')
@@ -60,20 +76,13 @@ export default () => {
         <div className="flex flex-col items-center h-[76vh]">
             {editor && <MenuBar editor={editor} />}
             {editor && <EditorContent editor={editor} />}
-            <div className="mt-6">
-                <button
-                    onClick={handleSubmit}
-                    className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition cursor-pointer"
-                >
-                    Publish
-                </button>
-                <button
-                    className="ml-4 bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition cursor-pointer"
-                    onClick={() => setIsModalOpen(false)}
-                >
-                    Cancel
-                </button>
-            </div>
+
+            {/* Conditionally render buttons */}
+            {!isEditMode && (
+                <EditorSubmitBtns handleSubmit={handleSubmit} setIsModalOpen={setIsModalOpen} />
+            )}
+
+
         </div>
     )
 }
