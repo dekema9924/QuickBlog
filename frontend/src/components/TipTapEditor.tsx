@@ -174,7 +174,7 @@ export default function TiptapEditor() {
             }
 
             if (!tag.trim()) {
-                alert('Please enter a tag.')
+                toast.error('Please enter a tag.')
                 return
             }
 
