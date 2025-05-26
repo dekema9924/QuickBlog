@@ -11,6 +11,8 @@ passport.use(new LocalStrategy({
 
         // Check if the user exists
         const user = await User.findOne({ email: email });
+
+
         if (!user) return done(null, false, { message: 'User not found' });
         // Check if the password is correct
         const isMatch = await bcrypt.compare(password, user.password);

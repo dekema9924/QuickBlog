@@ -21,7 +21,8 @@ function SignUp() {
     const { isDarkMode } = useThemeContext()
     const [inputValue, setInputValue] = useState({
         email: "",
-        password: ""
+        password: "",
+        adminCode: ""
     })
 
     //handle input change
@@ -35,25 +36,28 @@ function SignUp() {
     //handle form submit
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const email = validator.isEmail(inputValue.email)
-        const password = validator.isStrongPassword(inputValue.password)
+        const isEmailValid = validator.isEmail(inputValue.email)
+        const isPasswordStrong = validator.isStrongPassword(inputValue.password)
 
-        //check if email and password are valid
-        if (!email) {
-            toast.error("Please enter a valid email")
+        if (!isEmailValid || !isPasswordStrong) {
+            if (!isEmailValid) {
+                toast.error("Please enter a valid email")
+            }
+            if (!isPasswordStrong) {
+                toast.error("Please enter a strong password")
+            }
             return
         }
-        if (!password) {
-            toast.error("Please enter a strong password")
-            return
-        }
+
+
         axios.post(`${APIURL.baseUrl}/auth/signup`, {
             email: inputValue.email,
-            password: inputValue.password
+            password: inputValue.password,
+            adminCode: inputValue.adminCode
         }, {
             withCredentials: true
         }).then((res) => {
-            if (res.status === 201) {
+            if (res.status === 201 || res.status === 200) {
                 console.log(res)
                 toast.success(res.data.message)
                 navigate("/signin")
@@ -88,7 +92,7 @@ function SignUp() {
                             </div>
                         </div>
                         <div className='mt-4'>
-                            <label htmlFor="password" className='text-gray-500 ml-4'>Password</label>
+                            <label htmlFor="password" className='text-gray-500 '>Password</label>
                             <div className='relative flex items-center justify-center'>
                                 <input onChange={(e) => handleInputChange(e)} type={isPasswordVisible} name="password" id="password" className={`border border-gray-300 outline-none rounded-md p-2  md:w-80 w-full  flex flex-col mt-2 ${isDarkMode === 'light' ? "bg-gray-100" : ""}`} />
                                 {
@@ -99,6 +103,16 @@ function SignUp() {
                                 }
                             </div>
                         </div>
+
+                        {/* //admin code */}
+                        <div className='mt-4'>
+                            <label htmlFor="adminCode" className='text-gray-500 '>Admin Code</label>
+                            <div className='relative flex items-center justify-center'>
+                                <input onChange={(e) => handleInputChange(e)} type="password" name="adminCode" className={`border border-gray-300 outline-none rounded-md p-2  md:w-80 w-full  flex flex-col mt-2 ${isDarkMode === 'light' ? "bg-gray-100" : ""}`} />
+                                <ElectricBoltIcon className='absolute right-4' />
+                            </div>
+                        </div>
+
                         <div className='m-auto flex items-center justify-center'>
                             <button className={`border w-66 justify-center cursor-pointer  my-6 h-9 rounded-md ${isDarkMode === 'light' ? "bg-black text-white" : "bg-white text-black"} flex items-center gap-1`}>Create Account<ArrowForwardIcon sx={{ fontSize: 15 }} /> </button>
                         </div>

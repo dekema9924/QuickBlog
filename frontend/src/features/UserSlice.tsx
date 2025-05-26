@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface UserState {
     user: {
         _id: string | null;
+        isAdmin?: boolean;
         username: string | null;
         role: string;
         email: string | null;
@@ -19,6 +20,7 @@ const initialState: UserState = {
         username: null,
         role: "standard",
         email: null,
+        isAdmin: false,
         profilePicture: null,
         createdAt: null,
         updatedAt: null,
