@@ -13,7 +13,8 @@ const blogsRouter = require('./routes/blogsRouter');
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://quickblog.netlify.app"
+    "https://quickblog.netlify.app",
+    "https://api.cloudinary.com/v1_1"
 ];
 // CORS configuration
 // Allow requests from the specified origins

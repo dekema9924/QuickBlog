@@ -10,6 +10,7 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
         <div className={`control-group py-4 mb-10 md:w-full ${isDarkMode === 'light' ? 'bg-white text-black' : 'bg-[#121212]'}`}>
             <div className={`button-group flex flex-wrap gap-4 md:w-9/12 m-auto justify-center md:justify-start ${isDarkMode === 'light' ? 'lightBorder' : ''}`}>
                 {[
+
                     { label: 'Bold', command: () => editor.chain().focus().toggleBold().run(), isActive: editor.isActive('bold') },
                     { label: 'Italic', command: () => editor.chain().focus().toggleItalic().run(), isActive: editor.isActive('italic') },
                     { label: 'Strike', command: () => editor.chain().focus().toggleStrike().run(), isActive: editor.isActive('strike') },
@@ -49,7 +50,10 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
                     >
                         {label}
                     </button>
+
                 ))}
+
+
             </div>
 
         </div>

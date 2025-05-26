@@ -10,7 +10,7 @@ interface UserState {
         profilePicture: string | null;
         createdAt: string | null;
         updatedAt: string | null;
-    } | null;
+    } | null,
 }
 
 const initialState: UserState = {
@@ -23,6 +23,7 @@ const initialState: UserState = {
         createdAt: null,
         updatedAt: null,
     },
+
 };
 
 export const userSlice = createSlice({
@@ -35,6 +36,7 @@ export const userSlice = createSlice({
         },
         clearUser: (state) => {
             state.user = null;
+
         },
     }
 

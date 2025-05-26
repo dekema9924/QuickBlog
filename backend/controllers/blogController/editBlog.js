@@ -2,7 +2,7 @@ const blogdb = require('../../models/blogsModel');
 
 const editBlog = async (req, res) => {
     const { id } = req.params;
-    const { content } = req.body;
+    const { content, coverImage } = req.body;
 
     try {
         const blogExist = await blogdb.findById(id);
@@ -18,11 +18,14 @@ const editBlog = async (req, res) => {
             id,
             {
                 title: content.slice(0.12),
+                coverImage,
                 content,
                 updatedAt: Date.now()
             },
             { new: true } // Return the updated document
         );
+        console.log(updatedBlog.coverImage)
+
 
         return res.status(200).json({ message: 'Blog updated successfully', updatedBlog });
     } catch (error) {

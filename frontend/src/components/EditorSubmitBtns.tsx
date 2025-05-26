@@ -10,7 +10,7 @@ function EditorSubmitBtns({
     setIsModalOpen: (isOpen: boolean) => void;
 }) {
     return (
-        <div className="mt-6">
+        <div className=" ">
             <button
                 onClick={handleSubmit}
                 className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition cursor-pointer"

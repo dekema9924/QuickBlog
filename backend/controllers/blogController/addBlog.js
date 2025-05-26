@@ -3,7 +3,7 @@ const Userdb = require('../../models/userModel')
 
 const addBlogs = async (req, res) => {
     console.log(req.body)
-    const { content } = req.body
+    const { content, coverImage } = req.body
 
 
 
@@ -17,6 +17,7 @@ const addBlogs = async (req, res) => {
             const newBlog = new Blogdb({
                 title: content.slice(0, 50),
                 // tag,
+                coverImage,
                 content,
                 user: req.user.id,
                 author: {

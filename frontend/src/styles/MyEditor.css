@@ -11,15 +11,17 @@
 /* Base editor container */
 .tiptap {
   padding: 1rem;
-  min-height: 300px;
+  min-height: 40vh;
   border-radius: 8px;
-  min-width: 40vw;
+  /* min-width: 15vw; */
+  outline: none;
 }
 
 /* Light theme */
 .tiptap.light {
   background-color: white;
   color: black;
+  border: 1px solid gray;
 }
 .lightBorder button {
   border: 1px solid gray;
@@ -41,13 +43,13 @@
 .tiptap ul,
 .tiptap ol {
   padding: 0 1rem;
-  margin: 1.25rem 1rem 1.25rem 0.4rem;
+  /* margin: 1.25rem 1rem 1.25rem 0.4rem; */
 }
 
 .tiptap li p {
-  margin-top: 0.25em;
-  margin-bottom: 0.25em;
-  line-height: 40px;
+  line-height: 1.5;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
 }
 
 /* Headings */
@@ -104,8 +106,8 @@
   color: aqua;
   border: 1px solid gray;
   font-family: "JetBrainsMono", monospace;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .tiptap pre code {
   color: inherit;
@@ -124,7 +126,7 @@
 /* Blockquote */
 .tiptap blockquote {
   border-left: 3px solid #ccc;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   padding-left: 1rem;
 }
 

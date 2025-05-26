@@ -21,13 +21,14 @@ export interface BlogDataInterface {
     };
     tag: string;
     user: string;
+    coverImage: string
 }
 
 function Blogs() {
     const { isDarkMode } = useThemeContext();
     const [allblogs, setAllBlogs] = useState<BlogDataInterface[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [blogsPerPage] = useState(3);
+    const [blogsPerPage] = useState(5);
 
     const indexOfLastBlog = currentPage * blogsPerPage;
     const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;

@@ -5,12 +5,15 @@ import { useRef } from 'react'
 import { APIURL } from '../config/Url'
 import axios from 'axios'
 import { setUser } from '../features/userSlice'
+import useGetUser from '../hooks/useGetUser'
+import { LoaderIcon } from 'react-hot-toast'
 
 const Profile = () => {
     const user = useSelector((state: RootState) => (state.user.user))
     const fileInputRef = useRef<HTMLInputElement>(null)
     const dispatch = useDispatch()
     console.log(user?.profilePicture)
+    const { loading } = useGetUser()
 
 
 
@@ -47,11 +50,12 @@ const Profile = () => {
     }
 
     const handleImageClick = () => {
-        console.log(fileInputRef.current)
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
     };
+
+    if (loading) return <LoaderIcon />
 
     return (
         <div className="flex flex-col mt-22 md:mt-10 h-[75vh]">

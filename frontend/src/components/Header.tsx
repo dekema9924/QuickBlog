@@ -17,10 +17,11 @@ import LogOutButton from './LogOutButton';
 const Header = () => {
     const { isDarkMode, toggleDarkMode, isOpen, toggleMenu, setIsOpen } = useThemeContext();
     const [isVisible, setIsVisible] = useState(false);
-    const { isModalOpen, setIsModalOpen } = useModalContext();
+    const { isModalOpen, setIsModalOpen, isEditModalOpen } = useModalContext();
     const userRole = useSelector(selectUserRole);
     const user = useSelector((state: RootState) => state.user.user);
     const isMember = userRole === 'member' || userRole === 'admin';
+
 
 
     const handleMenu = () => {
@@ -38,7 +39,7 @@ const Header = () => {
             <div className='gray-text flex items-center gap-4 relative '>
 
                 {/* //add new post */}
-                <div onClick={() => setIsModalOpen(true)} onMouseOut={() => setIsVisible(false)} onMouseOver={() => setIsVisible(true)} className={`relative ${isMember ? "block" : "hidden"} ${isModalOpen ? "hidden" : ""}  `}>
+                <div onClick={() => setIsModalOpen(true)} onMouseOut={() => setIsVisible(false)} onMouseOver={() => setIsVisible(true)} className={`relative ${isMember ? "block" : "hidden"} ${isModalOpen ? "hidden" : ""} ${isEditModalOpen ? "hidden" : "block"}  `}>
                     <span className='cursor-pointer '><PostAddIcon sx={{ fontSize: 28 }} /></span>
                     <p className={`text-sm border ${isDarkMode === 'light' ? "bg-black text-white" : "bg-white text-black "} text-center ${isVisible ? "opacity-80" : "opacity-0"} rounded-md absolute w-17 right-0 top-5`}>Add Post</p>
                 </div>
