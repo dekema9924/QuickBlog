@@ -19,10 +19,10 @@ export const deleteBlog = (id: string | undefined) => {
     }
 };
 
-export const editBlog = (id: string | undefined, data: any) => {
+export const editBlog = (id: string | undefined, data: any, imageUrl: string,) => {
     try {
-        return axios.put(`${APIURL.baseUrl}/blogs/${id}`, { content: data }, { withCredentials: true }).then((res) => {
-            console.log(res)
+        console.log(imageUrl)
+        return axios.put(`${APIURL.baseUrl}/blogs/${id}`, { content: data, coverImage: imageUrl }, { withCredentials: true }).then((res) => {
             if (res.status = 200) {
                 toast.success(res.data.message)
 

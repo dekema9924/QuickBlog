@@ -14,8 +14,7 @@ const addBlogs = async (req, res) => {
         //get author
         await Userdb.findById(req.user.id).then(async (result) => {
             const newBlog = new Blogdb({
-                title: content.slice(0, 50),
-                // tag,
+                title: content.slice(0, 40),
                 coverImage,
                 content,
                 user: req.user.id,

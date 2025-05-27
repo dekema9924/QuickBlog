@@ -3,6 +3,7 @@ const blogdb = require('../../models/blogsModel');
 const editBlog = async (req, res) => {
     const { id } = req.params;
     const { content, coverImage } = req.body;
+    const plainText = content.replace(/<[^>]*>/g, '').trim();
 
     try {
         const blogExist = await blogdb.findById(id);
@@ -17,17 +18,16 @@ const editBlog = async (req, res) => {
         const updatedBlog = await blogdb.findByIdAndUpdate(
             id,
             {
-                title: content.slice(0.12),
+                title: plainText.slice(0, 40),
                 coverImage,
                 content,
                 updatedAt: Date.now()
-            },
-            { new: true } // Return the updated document
+            }
         );
         console.log(updatedBlog.coverImage)
 
 
-        return res.status(200).json({ message: 'Blog updated successfully', updatedBlog });
+        return res.status(200).json({ message: 'Blog updated successfully' });
     } catch (error) {
         console.error('Edit blog error:', error);
         return res.status(500).json({ message: 'Server error', error });

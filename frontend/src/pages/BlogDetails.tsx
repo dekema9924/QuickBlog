@@ -21,6 +21,7 @@ import type { RootState } from '../store/Store'
 import { deleteBlog, editBlog } from '../api/blogActions'
 import MyEditor from '../components/MyEditor'
 import { useModalContext } from '../context/ModalContext'
+import toast from 'react-hot-toast'
 
 const BlogDetails = () => {
     const { id } = useParams()
@@ -33,6 +34,8 @@ const BlogDetails = () => {
     const user = useSelector((state: RootState) => state.user.user)
     const navigate = useNavigate()
     const readTime = blogData ? `${Math.ceil(blogData.content.length / 800)} min read` : ''
+    const [coverImageFile, setCoverImageFile] = useState<File | null>(null)
+
 
     useEffect(() => {
         axios.get(`${APIURL.baseUrl}/blogs/${id}`, { withCredentials: true }).then((res) => {
@@ -56,6 +59,35 @@ const BlogDetails = () => {
         )
     }
 
+
+    //save new coverImage
+    const handleEditSave = async () => {
+        let imageUrl = blogData?.coverImage || ''
+        console.log('submitting edit')
+
+        if (coverImageFile) {
+            const formData = new FormData()
+            formData.append('file', coverImageFile)
+            formData.append('upload_preset', 'blog_uploads')
+
+            const uploadRes = await axios.post(
+                'https://api.cloudinary.com/v1_1/dzhawgjow/image/upload',
+                formData
+            )
+            imageUrl = uploadRes.data.secure_url
+        }
+
+        if (blogData?._id && editedContent) {
+            await editBlog(blogData._id, editedContent, imageUrl)
+            toast.success("Blog updated")
+            setIsEditModalOpen(false)
+            window.location.reload()
+        } else {
+            toast.error("Missing required fields.")
+        }
+    }
+
+
     return (
         <>
             {/* Main content */}
@@ -72,7 +104,7 @@ const BlogDetails = () => {
 
 
                         <h1
-                            className='text-3xl md:text-4xl font-bold  leading-tight capitalize'
+                            className='text-3xl md:text-4xl font-bold  leading-tight capitalize '
                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blogData?.title || '') }}
                         />
                         <p
@@ -167,20 +199,24 @@ const BlogDetails = () => {
                     {/* Modal at bottom */}
 
                     <div
-                        className={`fixed bottom-0 left-0 right-0 z-50 w-full max-w-7xl mx-auto rounded-t-lg shadow-lg
+                        className={`fixed bottom-0 left-0 right-0 z-50 md:w-full w-full max-w-7xl mx-auto rounded-t-lg shadow-lg
         ${isDarkMode === 'dark' ? 'bg-black' : 'bg-white'}
-        flex flex-col max-h-[90vh]`}
-                        style={{ maxWidth: '90vw' }}
+        flex flex-col md:max-w-90vw max-h-[90vh]`}
                     >
                         {/* Scrollable editor area */}
                         <div className="p-6 overflow-y-auto flex-1 min-h-[700px]">
-                            <MyEditor content={editedContent} onChange={setEditedContent} isEditMode={true} />
+                            <MyEditor
+                                content={editedContent}
+                                onChange={setEditedContent}
+                                setCoverImageFile={setCoverImageFile}
+                                isEditMode={true}
+                            />
                         </div>
 
                         {/* Sticky footer buttons */}
                         <div className={` p-4 flex justify-end gap-4 sticky bottom-0  bg-white ${isDarkMode == 'dark' ? "!bg-black" : "!bg-white"}`}>
                             <button
-                                onClick={() => editBlog(blogData?._id, editedContent)?.then(() => window.location.reload())}
+                                onClick={handleEditSave}
                                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
                             >
                                 Save

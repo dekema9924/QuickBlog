@@ -1,3 +1,4 @@
+// MyEditor.tsx
 import { useEditor, EditorContent } from '@tiptap/react'
 import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
@@ -11,19 +12,16 @@ import { APIURL } from '../config/Url'
 import toast from 'react-hot-toast'
 import MenuBar from './MenuBar'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import EditorSubmitBtns from './EditorSubmitBtns'
 import Image from '@tiptap/extension-image'
-import { useState } from 'react'
 
-
-
-//  Added type for props
+// Props interface
 interface MyEditorProps {
     content: string
     onChange?: (value: string) => void
-    isEditMode?: boolean  // optional; defaults to false
-
+    isEditMode?: boolean
+    setCoverImageFile?: (file: File | null) => void
 }
 
 const extensions = [
@@ -39,11 +37,13 @@ const extensions = [
     }),
 ]
 
-
-
-//  Accept props
-export default function MyEditor({ content, onChange, isEditMode = false }: MyEditorProps) {
-    const [coverImageFile, setCoverImageFile] = useState<File | null>(null)
+export default function MyEditor({
+    content,
+    onChange,
+    isEditMode = false,
+    setCoverImageFile,
+}: MyEditorProps) {
+    const [coverImageFile, setLocalCoverImageFile] = useState<File | null>(null)
     const { isDarkMode } = useThemeContext()
     const { setIsModalOpen } = useModalContext()
     const navigate = useNavigate()
@@ -62,50 +62,39 @@ export default function MyEditor({ content, onChange, isEditMode = false }: MyEd
         },
     })
 
-
-    //  Update editor content if `content` prop changes externally
     useEffect(() => {
         if (editor && content !== editor.getHTML()) {
             editor.commands.setContent(content)
         }
     }, [content, editor])
 
-    //submit blog with imabe
     const handleSubmit = async () => {
         let imageUrl = ''
 
-        console.log('Submitting blog with image...')
-        if (!editor?.getText().trim()) return toast.error('Please add some content to the blog.')
+        if (!editor?.getText().trim()) {
+            return toast.error('Please add some content to the blog.')
+        }
 
-        const htmlContent = editor?.getHTML()
+        const htmlContent = editor.getHTML()
 
         try {
-            // 1. Upload image to Cloudinary
             const formData = new FormData()
-
             if (coverImageFile) {
                 formData.append('file', coverImageFile)
-                formData.append('upload_preset', 'blog_uploads') // from Cloudinary settings
+                formData.append('upload_preset', 'blog_uploads')
 
                 const uploadRes = await axios.post(
                     'https://api.cloudinary.com/v1_1/dzhawgjow/image/upload',
                     formData
                 )
                 imageUrl = uploadRes.data.secure_url
-
             }
 
-
-
-
-            // 2. Submit blog with image URL and HTML content
             await axios.post(
                 `${APIURL.baseUrl}/blogs/addblog`,
                 { content: htmlContent, coverImage: imageUrl || null },
                 { withCredentials: true }
-            ).then((res) => {
-                console.log(res.data)
-            })
+            )
 
             toast.success('Blog added')
             setIsModalOpen(false)
@@ -116,52 +105,34 @@ export default function MyEditor({ content, onChange, isEditMode = false }: MyEd
         }
     }
 
-
     return (
         <>
-            {/* <div
-                className={`fixed bottom-0 left-0 right-0 z-50 w-full max-w-5xl mx-auto rounded-t-lg shadow-lg
-          ${isDarkMode === 'dark' ? 'bg-black' : 'bg-white'}
-          flex flex-col`}
-                style={{
-                    maxHeight: '90vh',
-                    width: '95vw',
-                    overscrollBehavior: 'contain',
-                    WebkitOverflowScrolling: 'touch',
-                }}
-            > */}
-            {/* Menu */}
             {editor && <MenuBar editor={editor} />}
-
-            {/* Cover image input */}
-            <div className="p-4 border-b">
+            <div className="mb-4">
+                <label className="block text-sm font-medium mb-1">Cover Image</label>
                 <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => setCoverImageFile(e.target.files?.[0] || null)}
-                    className="pl-2"
+                    onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                            const file = e.target.files[0]
+                            setLocalCoverImageFile(file)
+                            setCoverImageFile?.(file)
+                        }
+                    }}
+                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+            file:rounded-full file:border-0 file:text-sm file:font-semibold
+            file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                 />
             </div>
-
-            {/* Scrollable editor area */}
             <div className="flex-1 overflow-y-auto p-6">
                 {editor && <EditorContent editor={editor} />}
             </div>
-
-            {/* Button bar - always visible at bottom */}
             {!isEditMode && (
-                <div
-                    className={`p-4 border-t flex justify-end gap-4
-                ${isDarkMode === 'dark' ? 'bg-black' : 'bg-white'}`}
-                >
-                    <EditorSubmitBtns
-                        handleSubmit={handleSubmit}
-                        setIsModalOpen={setIsModalOpen}
-                    />
+                <div className={`p-4 border-t flex justify-end gap-4 ${isDarkMode === 'dark' ? 'bg-black' : 'bg-white'}`}>
+                    <EditorSubmitBtns handleSubmit={handleSubmit} setIsModalOpen={setIsModalOpen} />
                 </div>
             )}
-            {/* </div> */}
         </>
     )
-
 }
