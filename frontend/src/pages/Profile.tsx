@@ -79,7 +79,7 @@ const Profile = () => {
 
                         {/* Clickable profile image */}
                         <img
-                            src={user?.profilePicture || 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?ga=GA1.1.1669151230.1744398481&semt=ais_hybrid&w=740'}
+                            src={user?.profilePicture ? user.profilePicture : ''}
                             alt="click to add profile"
                             className="w-32 h-32 rounded-full text-center object-cover border-2 border-gray-700 cursor-pointer hover:scale-105 transition-transform duration-300"
                             onClick={handleImageClick}

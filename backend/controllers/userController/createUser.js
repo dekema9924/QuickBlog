@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs')
 
 const createUser = async (req, res) => {
     const { email, password, adminCode } = req.body;
-    console.log(email, password, adminCode);
 
     if (!email || !password) {
         return res.status(400).json({ message: "Please fill all the fields" });
@@ -21,7 +20,6 @@ const createUser = async (req, res) => {
 
     const role = adminCode === process.env.ADMIN_CODE ? "admin" : "standard";
     const isAdmin = role === "admin" ? true : false;
-    console.log("Role:", role, "Is Admin:", isAdmin);
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);

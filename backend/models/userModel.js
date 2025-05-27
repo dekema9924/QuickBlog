@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePicture: {
         type: String,
+        default: 'https://plus.unsplash.com/premium_photo-1741902728732-9abc944e318c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZmlsZSUyMHBpY3R8ZW58MHx8MHx8fDA%3D'
     },
     email: {
         type: String,

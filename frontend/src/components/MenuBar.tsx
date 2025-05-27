@@ -7,7 +7,7 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
     if (!editor) return null
 
     return (
-        <div className={`control-group py-4 mb-10 md:w-full ${isDarkMode === 'light' ? 'bg-white text-black' : 'bg-[#121212]'}`}>
+        <div className={`control-group  py-4 mb-10 md:w-full ${isDarkMode === 'light' ? 'bg-white text-black' : 'bg-[#121212]'}`}>
             <div className={`button-group flex flex-wrap gap-4 md:w-9/12 m-auto justify-center md:justify-start ${isDarkMode === 'light' ? 'lightBorder' : ''}`}>
                 {[
 

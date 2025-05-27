@@ -17,6 +17,7 @@ import Image from '@tiptap/extension-image'
 import { useState } from 'react'
 
 
+
 //  Added type for props
 interface MyEditorProps {
     content: string
@@ -70,29 +71,37 @@ export default function MyEditor({ content, onChange, isEditMode = false }: MyEd
     }, [content, editor])
 
     //submit blog with imabe
-
     const handleSubmit = async () => {
-        if (!editor || !coverImageFile) return
+        let imageUrl = ''
 
-        const htmlContent = editor.getHTML()
+        console.log('Submitting blog with image...')
+        if (!editor?.getText().trim()) return toast.error('Please add some content to the blog.')
+
+        const htmlContent = editor?.getHTML()
 
         try {
             // 1. Upload image to Cloudinary
             const formData = new FormData()
-            formData.append('file', coverImageFile)
-            formData.append('upload_preset', 'blog_uploads') // from Cloudinary settings
 
-            const uploadRes = await axios.post(
-                'https://api.cloudinary.com/v1_1/dzhawgjow/image/upload',
-                formData
-            )
+            if (coverImageFile) {
+                formData.append('file', coverImageFile)
+                formData.append('upload_preset', 'blog_uploads') // from Cloudinary settings
 
-            const imageUrl = uploadRes.data.secure_url
+                const uploadRes = await axios.post(
+                    'https://api.cloudinary.com/v1_1/dzhawgjow/image/upload',
+                    formData
+                )
+                imageUrl = uploadRes.data.secure_url
+
+            }
+
+
+
 
             // 2. Submit blog with image URL and HTML content
             await axios.post(
                 `${APIURL.baseUrl}/blogs/addblog`,
-                { content: htmlContent, coverImage: imageUrl },
+                { content: htmlContent, coverImage: imageUrl || null },
                 { withCredentials: true }
             ).then((res) => {
                 console.log(res.data)
@@ -109,35 +118,50 @@ export default function MyEditor({ content, onChange, isEditMode = false }: MyEd
 
 
     return (
-        <div className="flex flex-col items-center h-[76vh] relative">
+        <>
+            {/* <div
+                className={`fixed bottom-0 left-0 right-0 z-50 w-full max-w-5xl mx-auto rounded-t-lg shadow-lg
+          ${isDarkMode === 'dark' ? 'bg-black' : 'bg-white'}
+          flex flex-col`}
+                style={{
+                    maxHeight: '90vh',
+                    width: '95vw',
+                    overscrollBehavior: 'contain',
+                    WebkitOverflowScrolling: 'touch',
+                }}
+            > */}
+            {/* Menu */}
             {editor && <MenuBar editor={editor} />}
-            {editor &&
-                <>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setCoverImageFile(e.target.files?.[0] || null)}
-                        className="mb-4"
-                    />
 
-                </>}
-            {editor && <div className=' md:w-[60vw] w-full md:h-[40vh] '> <EditorContent editor={editor} /></div>}
-
-            {/* Conditionally render buttons */}
-            <div className={`pb-[80px]`}>
-                {/* Your editor content here */}
-                {!isEditMode && (
-                    <div
-                        className={`fixed bottom-0 left-0 right-0  p-4 flex justify-end md:relative  ${isDarkMode == 'dark' ? "!bg-black" : "!bg-white"
-                            }`}
-                    >
-                        <EditorSubmitBtns handleSubmit={handleSubmit} setIsModalOpen={setIsModalOpen} />
-                    </div>
-                )}
+            {/* Cover image input */}
+            <div className="p-4 border-b">
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setCoverImageFile(e.target.files?.[0] || null)}
+                    className="pl-2"
+                />
             </div>
 
+            {/* Scrollable editor area */}
+            <div className="flex-1 overflow-y-auto p-6">
+                {editor && <EditorContent editor={editor} />}
+            </div>
 
-
-        </div>
+            {/* Button bar - always visible at bottom */}
+            {!isEditMode && (
+                <div
+                    className={`p-4 border-t flex justify-end gap-4
+                ${isDarkMode === 'dark' ? 'bg-black' : 'bg-white'}`}
+                >
+                    <EditorSubmitBtns
+                        handleSubmit={handleSubmit}
+                        setIsModalOpen={setIsModalOpen}
+                    />
+                </div>
+            )}
+            {/* </div> */}
+        </>
     )
+
 }

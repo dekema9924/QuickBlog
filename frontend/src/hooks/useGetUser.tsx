@@ -17,7 +17,6 @@ function useGetUser() {
                 const response = await axios.get(`${APIURL.baseUrl}/auth/profile`, { withCredentials: true })
                 setData(response.data)
                 dispatch({ type: 'user/setUser', payload: response.data.userStatus })
-                // dispatch(setUser({ isLoading: false }))
                 console.log(response.data)
                 setLoading(false)
 

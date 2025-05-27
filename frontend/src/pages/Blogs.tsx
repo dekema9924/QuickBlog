@@ -29,11 +29,11 @@ function Blogs() {
     const [allblogs, setAllBlogs] = useState<BlogDataInterface[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [blogsPerPage] = useState(5);
-
     const indexOfLastBlog = currentPage * blogsPerPage;
     const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
     const currentBlogs = allblogs.slice(indexOfFirstBlog, indexOfLastBlog);
     const totalPages = Math.ceil(allblogs.length / blogsPerPage);
+
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -46,6 +46,7 @@ function Blogs() {
             setCurrentPage(currentPage - 1);
         }
     };
+
 
     useEffect(() => {
         axios.get(`${APIURL.baseUrl}/blogs/getblogs`, { withCredentials: true }).then((res) => {

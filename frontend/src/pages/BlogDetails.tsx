@@ -1,4 +1,5 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import '../styles/MyEditor.css'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import Subscribe from '../components/Subscribe'
 import Line from '../components/Line'
@@ -71,11 +72,11 @@ const BlogDetails = () => {
 
 
                         <h1
-                            className='text-3xl md:text-4xl font-bold my-5 leading-tight'
+                            className='text-3xl md:text-4xl font-bold  leading-tight capitalize'
                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blogData?.title || '') }}
                         />
                         <p
-                            className={`text-sm md:text-lg my-8 flex items-center gap-3 ${isDarkMode !== 'dark' ? '!text-black' : '!text-white'
+                            className={`text-sm  my-6 flex items-center gap-3 ${isDarkMode !== 'dark' ? '!text-black' : '!text-white'
                                 }`}
                         >
                             Posted by
@@ -86,13 +87,13 @@ const BlogDetails = () => {
                                     alt='profile'
                                 />
                             </span>
-                            <span>{blogData?.author.username}</span> on{' '}
-                            <span>{new Date(blogData?.createdAt || '').toLocaleDateString()}</span>
+                            <span className={`capitalize font-bold ${isDarkMode == 'dark' ? "!text-white" : "!text-black"}`}>{blogData?.author.username}</span> on{' '}
+                            <span className={`capitalize font-bold ${isDarkMode == 'dark' ? "!text-gray-400" : "!text-gray-700"}`}>{new Date(blogData?.createdAt || '').toLocaleDateString()}</span>
                         </p>
 
 
 
-                        <div className='flex justify-between items-center border-t border-b py-4'>
+                        <div className='flex justify-between items-center border-t border-b  py-2'>
                             <div className='flex gap-4 items-center text-sm'>
                                 <Box><FavoriteBorderIcon /></Box>
                                 <p className='font-semibold'>{readTime}</p>
@@ -134,9 +135,9 @@ const BlogDetails = () => {
                         </div>
                         {/* //bg-img */}
 
-                        <div className=''>
+                        <div >
                             {
-                                blogData?.coverImage ? <img className='mt-14' src={blogData.coverImage} alt="" /> : ""
+                                blogData?.coverImage ? <img className='mt-14 w-full rounded-md' src={blogData.coverImage} alt="" /> : ""
                             }
                         </div>
                     </div>
@@ -164,6 +165,7 @@ const BlogDetails = () => {
                     />
 
                     {/* Modal at bottom */}
+
                     <div
                         className={`fixed bottom-0 left-0 right-0 z-50 w-full max-w-7xl mx-auto rounded-t-lg shadow-lg
         ${isDarkMode === 'dark' ? 'bg-black' : 'bg-white'}
@@ -171,12 +173,12 @@ const BlogDetails = () => {
                         style={{ maxWidth: '90vw' }}
                     >
                         {/* Scrollable editor area */}
-                        <div className="p-6 overflow-y-auto flex-1 min-h-[200px]">
+                        <div className="p-6 overflow-y-auto flex-1 min-h-[700px]">
                             <MyEditor content={editedContent} onChange={setEditedContent} isEditMode={true} />
                         </div>
 
                         {/* Sticky footer buttons */}
-                        <div className={` p-4 flex justify-end gap-4 sticky bottom-0 bg-white ${isDarkMode == 'dark' ? "!bg-black" : "!bg-white"}`}>
+                        <div className={` p-4 flex justify-end gap-4 sticky bottom-0  bg-white ${isDarkMode == 'dark' ? "!bg-black" : "!bg-white"}`}>
                             <button
                                 onClick={() => editBlog(blogData?._id, editedContent)?.then(() => window.location.reload())}
                                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"

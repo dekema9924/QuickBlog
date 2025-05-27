@@ -1,7 +1,6 @@
 
 
 
-
 function EditorSubmitBtns({
     handleSubmit,
     setIsModalOpen,
@@ -10,7 +9,8 @@ function EditorSubmitBtns({
     setIsModalOpen: (isOpen: boolean) => void;
 }) {
     return (
-        <div className=" ">
+        <div className={` p-4 flex justify-end gap-4 sticky bottom-0   `}>
+
             <button
                 onClick={handleSubmit}
                 className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition cursor-pointer"

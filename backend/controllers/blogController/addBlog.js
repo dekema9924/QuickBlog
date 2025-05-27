@@ -2,7 +2,6 @@ const Blogdb = require('../../models/blogsModel');
 const Userdb = require('../../models/userModel')
 
 const addBlogs = async (req, res) => {
-    console.log(req.body)
     const { content, coverImage } = req.body
 
 
@@ -27,7 +26,6 @@ const addBlogs = async (req, res) => {
                 },
             });
 
-            console.log(newBlog)
             const savedBlog = await newBlog.save();
 
             return res.status(201).json(savedBlog);

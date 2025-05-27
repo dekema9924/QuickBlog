@@ -1,55 +1,42 @@
-.button-group button {
-  border: 2px solid white;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 4px;
-  gap: 4px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 /* Base editor container */
 .tiptap {
   padding: 1rem;
   min-height: 40vh;
   border-radius: 8px;
-  /* min-width: 15vw; */
   outline: none;
 }
 
-/* Light theme */
+/* // Prevent text selection issues in the editor when copying and pasting */
+.tiptap * {
+  color: inherit !important;
+}
+
+/* Light Theme */
 .tiptap.light {
   background-color: white;
-  color: black;
-  border: 1px solid gray;
-}
-.lightBorder button {
-  border: 1px solid gray;
+  color: #111;
+  border: 1px solid #ccc;
 }
 
-/* Dark theme */
+.tiptap.light {
+  color: #111 !important;
+}
+
+/* Dark Theme */
 .tiptap.dark {
   background-color: #121212;
-  color: white;
-  border: 1px solid rgb(57, 57, 57);
+  color: #f5f5f5;
+  border: 1px solid #393939;
 }
 
-/* Remove top margin of first child */
-.tiptap > *:first-child {
-  margin-top: 0;
+.tiptap.dark {
+  color: #f5f5f5 !important;
 }
 
-/* Lists */
-.tiptap ul,
-.tiptap ol {
-  padding: 0 1rem;
-  /* margin: 1.25rem 1rem 1.25rem 0.4rem; */
-}
-
-.tiptap li p {
-  line-height: 1.5;
-  margin-top: 0.75em;
-  margin-bottom: 0.75em;
+/* Paragraphs */
+.tiptap p {
+  line-height: 1.8;
+  margin: 1em 0;
 }
 
 /* Headings */
@@ -59,62 +46,47 @@
 .tiptap h4,
 .tiptap h5,
 .tiptap h6 {
-  line-height: 1.1;
-  margin-top: 2.5rem;
-  text-wrap: pretty;
-}
-
-.tiptap h1,
-.tiptap h2 {
-  margin-top: 3.5rem;
-  margin-bottom: 1.5rem;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  color: inherit;
+  margin-bottom: 0.5rem;
+  text-decoration: underline;
+  text-decoration-color: #ccc;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2rem;
+  text-transform: uppercase;
 }
 
 .tiptap h1 {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+  margin-top: 3rem;
 }
 
 .tiptap h2 {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  margin-top: 2.5rem;
 }
 
 .tiptap h3 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  margin-top: 2rem;
 }
 
 .tiptap h4,
 .tiptap h5,
 .tiptap h6 {
   font-size: 1rem;
+  margin-top: 1.5rem;
 }
 
-/* Inline code */
-.tiptap code {
-  border-radius: 0.4rem;
-  color: #1a1a1a;
-  font-size: 0.85rem;
-  padding: 0.25em 0.3em;
+/* Lists */
+.tiptap ul,
+.tiptap ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+  line-height: 1.6;
 }
 
-/* Code block */
-.tiptap pre {
-  width: full; /* Limit width */
-  padding: 0.75rem 1rem;
-  overflow-x: auto;
-  border-radius: 0.5rem;
-  background: #242222;
-  color: aqua;
-  border: 1px solid gray;
-  font-family: "JetBrainsMono", monospace;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-.tiptap pre code {
-  color: inherit;
-  font-size: 0.8rem;
-  padding: 0;
-}
-/* Ensure bullet and ordered lists show markers */
 .tiptap ul {
   list-style-type: disc;
 }
@@ -123,11 +95,46 @@
   list-style-type: decimal;
 }
 
+.tiptap li {
+  margin: 0.5em 0;
+}
+
+/* Inline code */
+.tiptap code {
+  background-color: #eee;
+  border-radius: 0.3rem;
+  padding: 0.2em 0.4em;
+  font-family: "JetBrainsMono", monospace;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Code block */
+.tiptap pre {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: #242222;
+  color: aqua !important;
+  border: 1px solid gray;
+  font-family: "JetBrainsMono", monospace;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.tiptap pre code {
+  color: inherit;
+  font-size: 0.9rem;
+  padding: 0;
+  background: none;
+}
+
 /* Blockquote */
 .tiptap blockquote {
-  border-left: 3px solid #ccc;
+  border-left: 4px solid #ccc;
   margin: 1rem 0;
   padding-left: 1rem;
+  font-style: italic;
+  opacity: 0.9;
 }
 
 /* Horizontal rule */
@@ -136,6 +143,14 @@
   border-top: 1px solid #ccc;
   margin: 2rem 0;
 }
-.tiptap p {
-  line-height: 30px;
+
+/* Links */
+.tiptap a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+/* Editor first-child fix */
+.tiptap > *:first-child {
+  margin-top: 0;
 }
