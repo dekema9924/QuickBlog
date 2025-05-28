@@ -1,31 +1,23 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { APIURL } from '../config/Url';
 import toast from 'react-hot-toast';
-
+import { handleAxiosError } from '../util/handleAxiosError';
 
 export const deleteBlog = (id: string | undefined) => {
     try {
         return axios.delete(`${APIURL.baseUrl}/blogs/${id}`, { withCredentials: true }).then((res) => {
-            console.log(res)
             if (res.status === 200) {
                 toast.success(res.data.message)
             }
         })
-    } catch (error: any) {
-        if (error.response?.data) {
-            // Assuming your server sends { message: "..." }
-            const message = (error.response.data as { message: string }).message;
-            console.log({ message: message })
-            toast.error(message);
-        } else {
-            toast.error("Something went wrong.");
-        }
+    } catch (error) {
+        handleAxiosError(error, 'Failed to perform action');
+
     }
 };
 
 export const editBlog = (id: string | undefined, data: any, imageUrl: string,) => {
     try {
-        console.log(imageUrl)
         return axios.put(`${APIURL.baseUrl}/blogs/${id}`, { content: data, coverImage: imageUrl }, { withCredentials: true }).then((res) => {
             if (res.status === 200) {
                 toast.success(res.data.message)
@@ -33,10 +25,24 @@ export const editBlog = (id: string | undefined, data: any, imageUrl: string,) =
             }
         })
     } catch (error) {
-        if (error) {
-            toast.error('failed to delete')
-            return
-        }
+        handleAxiosError(error, 'Failed to perform action');
+
 
     }
 };
+
+export const changePassword = async (new_password: string, confirm_password: string) => {
+    try {
+        await axios.post(`${APIURL.baseUrl}/auth/changepassword`, { new_password, confirm_password }, { withCredentials: true }).then((result) => {
+            console.log(result)
+            if (result.status === 200) {
+                toast.success(result.data.message)
+                window.location.reload()
+            }
+        })
+    } catch (error) {
+        handleAxiosError(error, 'Failed to perform action');
+
+    }
+
+}   

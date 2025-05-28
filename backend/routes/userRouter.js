@@ -13,7 +13,8 @@ const URL = require('../config/Url')
 
 // multer
 const storage = require('../utils/multer')
-const multer = require('multer')
+const multer = require('multer');
+const changePswrd = require('../controllers/userController/ChangePswrd');
 const upload = multer({ storage: storage })
 
 
@@ -25,6 +26,7 @@ userRouter.post('/signup', createUser);
 userRouter.post('/signin', signIn)
 userRouter.post('/signout', verifyToken, SignOut)
 userRouter.post('/upload', verifyToken, upload.single('avatar'), Upload)
+userRouter.post('/changepassword', verifyToken, changePswrd)
 
 
 
