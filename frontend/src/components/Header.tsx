@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/Store';
 import LogOutButton from './LogOutButton';
-import { selectUserRole } from '../features/UserSlice';
+import { selectUserRole } from '../features/userSlice';
 
 
 

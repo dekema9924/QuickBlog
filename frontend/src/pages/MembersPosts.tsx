@@ -1,7 +1,7 @@
 
 import { useSelector } from 'react-redux'
 import Alert from '../components/Alert'
-import { selectUserRole } from '../features/UserSlice'
+import { selectUserRole } from '../features/userSlice'
 
 function MembersPosts() {
     const userRole = useSelector(selectUserRole)
