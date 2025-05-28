@@ -9,7 +9,7 @@ const ThemeContext = createContext({
     toggleDarkMode: () => { },
     isOpen: false,
     toggleMenu: () => { },
-    setIsOpen: (value: boolean | ((prev: boolean) => boolean)) => { }
+    setIsOpen: (_value: boolean | ((prev: boolean) => boolean)) => { }
 });
 
 

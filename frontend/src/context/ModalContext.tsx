@@ -4,9 +4,9 @@ import { createContext, useContext, useState } from "react";
 const ModalContext = createContext({
     isModalOpen: false,
     toggleModal: () => { },
-    setIsModalOpen: (value: boolean) => { },
+    setIsModalOpen: (_value: boolean) => { },
     isEditModalOpen: false,
-    setIsEditModalOpen: (value: boolean) => { },
+    setIsEditModalOpen: (_value: boolean) => { },
     toggleEditModal: () => { }
 })
 
