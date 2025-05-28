@@ -10,6 +10,7 @@ const signIn = async (req, res, next) => {
         // If the user is found, create a token
         const token = createToken(user._id)
 
+
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',

@@ -10,11 +10,11 @@ import { LoaderIcon } from 'react-hot-toast'
 
 const Profile = () => {
     const user = useSelector((state: RootState) => (state.user.user))
-    console.log(user)
     const fileInputRef = useRef<HTMLInputElement>(null)
     const dispatch = useDispatch()
-    console.log(user?.profilePicture)
     const { loading } = useGetUser()
+
+
 
 
 
@@ -23,8 +23,6 @@ const Profile = () => {
     //upload image to the server
     const HandleImageChange = async () => {
         const file = fileInputRef.current?.files?.[0]
-
-
         if (!file) return;
 
 
@@ -78,12 +76,19 @@ const Profile = () => {
                         <button>Upload image</button>
 
                         {/* Clickable profile image */}
-                        <img
-                            src={user?.profilePicture ? user.profilePicture : ''}
-                            alt="click to add profile"
-                            className="w-32 h-32 rounded-full text-center object-cover border-2 border-gray-700 cursor-pointer hover:scale-105 transition-transform duration-300"
-                            onClick={handleImageClick}
-                        />
+                        {
+                            !loading ?
+                                <>
+                                    <img
+                                        src={user?.profilePicture ? user.profilePicture : ""}
+                                        alt="click to add profile"
+                                        className="w-32 h-32 rounded-full text-center object-cover border-2 border-gray-700 cursor-pointer hover:scale-105 transition-transform duration-300"
+                                        onClick={handleImageClick}
+                                        referrerPolicy="no-referrer"
+                                    />
+                                </>
+                                : ""
+                        }
                     </div>
                     <h2 className="mt-4 text-xl font-semibold">{user?.username}</h2>
                     <p className="text-gray-400">{user?.email}</p>
@@ -98,7 +103,7 @@ const Profile = () => {
                         </li>
                         <li className="flex justify-between">
                             <p className="font-medium">Email:</p>
-                            <p>{user?.email}</p>
+                            <p>{user?.email ? user.email : "N/A"}</p>
                         </li>
                         <li className="flex justify-between">
                             <p className="font-medium">Role:</p>

@@ -29,7 +29,7 @@ const Header = () => {
     }
 
     return (
-        <header className="h-18 md:mt-20 mt-12 flex items-center justify-between p-4  rounded-md">
+        <header className={`h-18 md:mt-20 mt-12 flex items-center justify-between p-4   rounded-md ${isModalOpen || isEditModalOpen ? "fixed right-0 left-0 blur-lg z-40 pointer-events-none" : ""}`}>
             {/* //left-side-logo */}
             <div className='borderBackground flex items-center justify-center w-14 h-14 rounded-md'>
                 <ElectricBoltIcon className={`${isDarkMode ? "text-white" : ""}`} sx={{ fontSize: 30 }} />

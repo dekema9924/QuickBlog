@@ -8,17 +8,18 @@ const createUser = async (req, res) => {
         return res.status(400).json({ message: "Please fill all the fields" });
     }
 
+
     // Validate admin code if provided
     if (adminCode && adminCode !== process.env.ADMIN_CODE) {
         return res.status(400).json({ message: "Invalid admin code" });
     }
 
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ email, authProvider: 'local' });
     if (userExists) {
         return res.status(400).json({ message: "User already exists" });
     }
 
-    const role = adminCode === process.env.ADMIN_CODE ? "admin" : "standard";
+    const role = adminCode === process.env.ADMIN_CODE ? "admin" : "member";
     const isAdmin = role === "admin" ? true : false;
 
     try {
@@ -28,7 +29,8 @@ const createUser = async (req, res) => {
             password: hashedPassword,
             username: email.split('@')[0], // Default username from email
             role,
-            isAdmin
+            isAdmin,
+            authProvider: 'local'
         });
 
         await user.save();

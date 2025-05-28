@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Line from '../components/Line';
 import SubdirectoryArrowLeftIcon from '@mui/icons-material/SubdirectoryArrowLeft';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
-import { useThemeContext } from '../context/ThemeContext';
+// import { useThemeContext } from '../context/ThemeContext';
 import Subscribe from '../components/Subscribe';
 import About from './About';
 import { Link } from 'react-router-dom';
@@ -25,7 +25,7 @@ export interface BlogDataInterface {
 }
 
 function Blogs() {
-    const { isDarkMode } = useThemeContext();
+    // const { isDarkMode } = useThemeContext();
     const [allblogs, setAllBlogs] = useState<BlogDataInterface[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [blogsPerPage] = useState(5);
@@ -64,12 +64,7 @@ function Blogs() {
                     return (
                         <div key={blog._id}>
                             <Link to={`/blog/${blog._id}`} className='w-full block m-auto'>
-                                <h3
-                                    className={`gray-text text-xl md:mb-10 cursor-pointer ${isDarkMode === 'dark' ? 'hover:!text-gray-300' : 'hover:!text-gray-900'
-                                        }`}
-                                >
-                                    {blog.tag}
-                                </h3>
+
                                 <div className='flex gap-4 cursor-pointer items-center'>
                                     <div className='borderBackground flex items-center justify-center w-6 md:h-6 h-4 rounded-full'>
                                         <span className='bg-gray-600 w-2 h-2 rounded-full hover:bg-[#3aa0e4] block'></span>
@@ -77,7 +72,7 @@ function Blogs() {
                                     <h1 className='text-3xl font-bold my-5 ' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.title) }}
                                     > </h1>
                                 </div>
-                                <p className='gray-text text-xs md:my-8 flex items-center gap-4 md:w-fit'>
+                                <p className='gray-text text-xs md:my-1 flex items-center gap-4 md:w-fit'>
                                     posted by
                                     <span className='rounded-full border block w-8'>
                                         <img
@@ -92,7 +87,7 @@ function Blogs() {
 
                                 {/* Rendered sanitized HTML content */}
                                 <div
-                                    className=' overflow-hidden md:w-8/12 text-sm  line-clamp-4 mt-4'
+                                    className=' overflow-hidden md:w-7/12 text-sm  line-clamp-3 '
                                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
                                 />
                             </Link>

@@ -9,13 +9,12 @@ const createUser = require('../controllers/userController/createUser');
 const signIn = require('../controllers/userController/signIn');
 const SignOut = require('../controllers/userController/SignOut');
 const Upload = require('../controllers/userController/Upload');
+const URL = require('../config/Url')
 
 // multer
 const storage = require('../utils/multer')
 const multer = require('multer')
 const upload = multer({ storage: storage })
-
-
 
 
 
@@ -28,17 +27,10 @@ userRouter.post('/signout', verifyToken, SignOut)
 userRouter.post('/upload', verifyToken, upload.single('avatar'), Upload)
 
 
-userRouter.get('/', verifyToken, (req, res) => {
-    res.send('Hello from user router');
-})
-
-
-
-
 
 //google authentication
 userRouter.get('/google',
-    passport.authenticate('google', { scope: ['profile'] }));
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 userRouter.get('/google/callback',
     passport.authenticate('google', { session: false, failureRedirect: '/login' }),
@@ -53,7 +45,7 @@ userRouter.get('/google/callback',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
 
         })
-        res.redirect('http://localhost:5173');
+        res.redirect(URL.FRONTEND_API_URL);
     });
 
 

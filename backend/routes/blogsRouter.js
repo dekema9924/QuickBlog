@@ -7,6 +7,7 @@ const getBlogs = require('../controllers/blogController/getBlogs')
 const blogDetails = require('../controllers/blogController/blogDetails')
 const deleteBlog = require('../controllers/blogController/deleteBlog')
 const editBlog = require('../controllers/blogController/editBlog')
+const isAdmin = require('../middleware/IsAdmin')
 
 
 

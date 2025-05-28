@@ -125,7 +125,7 @@ export default function MyEditor({
             file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                 />
             </div>
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-6 min-w-[90vw] md:min-w-[60vw]">
                 {editor && <EditorContent editor={editor} />}
             </div>
             {!isEditMode && (

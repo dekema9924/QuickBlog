@@ -10,7 +10,7 @@ passport.use(new LocalStrategy({
     async function (email, password, done) {
 
         // Check if the user exists
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ email, authProvider: 'local' });
 
 
         if (!user) return done(null, false, { message: 'User not found' });

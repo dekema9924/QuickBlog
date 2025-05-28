@@ -4,14 +4,10 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     googleId: {
         type: String,
-        unique: true,
         sparse: true, // allows multiple nulls
     },
-    githubId: {
-        type: String,
-        unique: true,
-        sparse: true,
-    },
+    authProvider: { type: String, required: true, enum: ['local', 'google'] },
+
     username: {
         type: String,
         trim: true,
@@ -25,13 +21,17 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         trim: true,
         match: [/^\S+@\S+\.\S+$/, 'Invalid email'],
-        unique: true,
         sparse: true,
     },
 
     password: {
         type: String,
         minlength: 6,
+    },
+
+    isVerified: {
+        type: Boolean,
+        default: false
     },
 
     isAdmin: {
@@ -43,4 +43,5 @@ const userSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
+userSchema.index({ email: 1, authProvider: 1 }, { unique: true });
 module.exports = mongoose.model('User', userSchema);

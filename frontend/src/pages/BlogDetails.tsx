@@ -97,7 +97,7 @@ const BlogDetails = () => {
                     <span className='text-sm'>Back</span>
                 </Link>
 
-                <section className='mt-14 md:mt-20 md:w-10/12 mx-auto mb-20 flex flex-col items-center'>
+                <section className='mt-14 md:mt-20 md:w-10/12 mx-auto mb-10 flex flex-col items-center'>
 
                     <div className='max-w-3xl w-full'>
                         {/* <p className='uppercase text-xs text-gray-500'>Lifestyle</p> */}
@@ -125,51 +125,55 @@ const BlogDetails = () => {
 
 
 
-                        <div className='flex justify-between items-center border-t border-b  py-2'>
+                        <div className='flex justify-between items-center border-t border-b border-gray-700  py-2'>
                             <div className='flex gap-4 items-center text-sm'>
                                 <Box><FavoriteBorderIcon /></Box>
                                 <p className='font-semibold'>{readTime}</p>
                             </div>
 
-                            {user?._id === blogData?.user && (
-                                <div className='relative'>
-                                    <Box onClick={() => setShowActionBtns((prev) => !prev)} sx={{ cursor: 'pointer' }}>
-                                        <MoreHorizIcon />
-                                    </Box>
-                                    <div
-                                        className={`absolute right-0 mt-2 bg-white dark:bg-[#1e1e1e] rounded-md shadow-lg overflow-hidden z-20 transition-all duration-300 ${showActionBtns ? 'h-auto p-2' : 'h-0 p-0'
-                                            }`}
-                                    >
-                                        <button
-                                            onClick={() => deleteBlog(blogData?._id)?.then(() => navigate('/'))}
-                                            className='flex items-center gap-2 text-red-600 hover:underline'
-                                        >
-                                            <DeleteIcon /> Delete
-                                        </button>
-                                        <button
-                                            onClick={() => {
-                                                setIsEditModalOpen(true)
-                                                setShowActionBtns(false)
-                                            }}
-                                            className='flex items-center gap-2 text-blue-500 hover:underline mt-2'
-                                        >
-                                            <EditIcon /> Edit
-                                        </button>
-                                        <button
-                                            onClick={() => setShowActionBtns(false)}
-                                            className='flex items-center gap-2 text-gray-600 hover:underline mt-2'
-                                        >
-                                            <HeadsetIcon /> Listen
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
+                            {
+                                user?._id === blogData?.user || user?.isAdmin ?
+                                    <>
+                                        <div className='relative'>
+                                            <Box onClick={() => setShowActionBtns((prev) => !prev)} sx={{ cursor: 'pointer' }}>
+                                                <MoreHorizIcon />
+                                            </Box>
+                                            <div
+                                                className={`absolute right-0 mt-2 bg-white dark:bg-[#1e1e1e] rounded-md shadow-lg overflow-hidden z-20 transition-all duration-300 ${showActionBtns ? 'h-auto p-2' : 'h-0 p-0'
+                                                    }`}
+                                            >
+                                                <button
+                                                    onClick={() => deleteBlog(blogData?._id)?.then(() => navigate('/'))}
+                                                    className='flex items-center gap-2 text-red-600 hover:underline'
+                                                >
+                                                    <DeleteIcon /> Delete
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setIsEditModalOpen(true)
+                                                        setShowActionBtns(false)
+                                                    }}
+                                                    className='flex items-center gap-2 text-blue-500 hover:underline mt-2'
+                                                >
+                                                    <EditIcon /> Edit
+                                                </button>
+                                                <button
+                                                    onClick={() => setShowActionBtns(false)}
+                                                    className='flex items-center gap-2 text-gray-600 hover:underline mt-2'
+                                                >
+                                                    <HeadsetIcon /> Listen
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </>
+                                    : ""
+                            }
                         </div>
                         {/* //bg-img */}
 
                         <div >
                             {
-                                blogData?.coverImage ? <img className='mt-14 w-full rounded-md' src={blogData.coverImage} alt="" /> : ""
+                                blogData?.coverImage ? <img className='mt-14 w-full object-cover rounded-md' src={blogData.coverImage} alt="" /> : ""
                             }
                         </div>
                     </div>
@@ -197,14 +201,13 @@ const BlogDetails = () => {
                     />
 
                     {/* Modal at bottom */}
-
                     <div
                         className={`fixed bottom-0 left-0 right-0 z-50 md:w-full w-full max-w-7xl mx-auto rounded-t-lg shadow-lg
         ${isDarkMode === 'dark' ? 'bg-black' : 'bg-white'}
         flex flex-col md:max-w-90vw max-h-[90vh]`}
                     >
                         {/* Scrollable editor area */}
-                        <div className="p-6 overflow-y-auto flex-1 min-h-[700px]">
+                        <div className="p-6 overflow-y-auto flex-1 ">
                             <MyEditor
                                 content={editedContent}
                                 onChange={setEditedContent}

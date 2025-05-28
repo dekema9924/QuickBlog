@@ -11,6 +11,7 @@ interface UserState {
         profilePicture: string | null;
         createdAt: string | null;
         updatedAt: string | null;
+        isVerified: boolean
     } | null,
 }
 
@@ -24,6 +25,7 @@ const initialState: UserState = {
         profilePicture: null,
         createdAt: null,
         updatedAt: null,
+        isVerified: false
     },
 
 };

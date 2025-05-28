@@ -9,8 +9,18 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/callback"
 },
     async function (accessToken, refreshToken, profile, cb) {
+        let email = profile.emails?.[0]?.value;
+        let IsVerified = profile.emails?.[0]?.verified;
+
+
+        // Optional: block unverified emails
+        // if(!isVerified) {
+        //     return done(new Error("Email is not verified"), null);
+        // }
+
         try {
-            let user = await User.findOne({ googleId: profile.id });
+            let user = await User.findOne({ email, authProvider: 'google' });
+            console.log(user)
 
             if (!user) {
                 user = await User.create({
@@ -18,6 +28,10 @@ passport.use(new GoogleStrategy({
                     username: profile.displayName,
                     profilePicture: profile.photos[0].value,
                     role: 'member',
+                    email: email,
+                    isVerified: IsVerified,
+                    authProvider: 'google',
+
                 });
 
 

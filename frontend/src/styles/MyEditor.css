@@ -154,3 +154,10 @@
 .tiptap > *:first-child {
   margin-top: 0;
 }
+
+/* @media screen and (max-width: 600px) {
+  .tiptap {
+    min-width: 90vw;
+    margin: auto;
+  }
+} */

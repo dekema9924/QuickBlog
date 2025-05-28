@@ -9,6 +9,13 @@ var cookieParser = require('cookie-parser')
 require('./Strategy/LocalStrategy')
 const cors = require('cors');
 const blogsRouter = require('./routes/blogsRouter');
+const URL = require('./config/Url');
+
+
+// debugging
+// console.log(process.env.NODE_ENV)
+// console.log({ url: URL.FRONTEND_API_URL })
+// console.log({ db: URL.MONGODBURL })
 
 
 const allowedOrigins = [
