@@ -1,8 +1,8 @@
 import axios from "axios"
 import { APIURL } from "../config/Url"
 import { useDispatch } from "react-redux"
-import { clearUser } from "../features/userSlice"
 import toast from "react-hot-toast"
+import { clearUser } from "../features/userSlice"
 
 const useLogOut = () => {
     const dispatch = useDispatch()
