@@ -6,6 +6,7 @@ interface UserState {
         _id: string | null;
         isAdmin?: boolean;
         username: string | null;
+        authProvider: string | null
         role: string;
         email: string | null;
         profilePicture: string | null;
@@ -21,6 +22,7 @@ const initialState: UserState = {
         username: null,
         role: "standard",
         email: null,
+        authProvider: null,
         isAdmin: false,
         profilePicture: null,
         createdAt: null,

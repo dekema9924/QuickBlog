@@ -18,12 +18,6 @@ const Profile = () => {
     const [isPasswordboxOpen, setPasswordBoxOpen] = useState(false)
 
 
-
-
-
-
-
-
     //upload image to the server
     const HandleImageChange = async () => {
         const file = fileInputRef.current?.files?.[0]
@@ -86,15 +80,22 @@ const Profile = () => {
                                 <div className="flex flex-col items-center mt-8">
                                     <div className='flex flex-col items-center gap-3'>
                                         {/* Hidden file input */}
-                                        <input
-                                            type="file"
-                                            name='avatar'
-                                            accept="image/*"
-                                            onChange={HandleImageChange}
-                                            ref={fileInputRef}
-                                            className="hidden"
-                                        />
-                                        <button>Upload image</button>
+                                        {
+                                            user?.authProvider === 'local' ?
+                                                <>
+                                                    <input
+                                                        type="file"
+                                                        name='avatar'
+                                                        accept="image/*"
+                                                        onChange={HandleImageChange}
+                                                        ref={fileInputRef}
+                                                        className="hidden"
+                                                    />
+                                                    <button>Upload image</button>
+                                                </>
+                                                : ""
+                                        }
+
 
                                         {/* Clickable profile image */}
                                         {
@@ -130,6 +131,10 @@ const Profile = () => {
                                             <p className="font-medium">Role:</p>
                                             <p>{user?.role}</p>
                                         </li>
+                                        <li className="flex justify-between capitalize">
+                                            <p className="font-medium">oAuth:</p>
+                                            <p>{user?.authProvider}</p>
+                                        </li>
                                         <li className="flex justify-between">
                                             <p className="font-medium">Created At:</p>
                                             <p>{user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</p>
@@ -143,18 +148,28 @@ const Profile = () => {
                                 <div className="mt-8">
                                     <h3 className="text-lg font-semibold">Actions</h3>
                                     <ul className="mt-4 flex flex-col gap-4">
-                                        <li className="flex justify-between">
+
+                                        {/* //edit profile */}
+                                        {/* <li className="flex justify-between">
                                             <p className="font-medium">Edit Profile:</p>
                                             <button className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 cursor-pointer">
                                                 Edit
                                             </button>
-                                        </li>
-                                        <li className="flex justify-between">
-                                            <p className="font-medium">Change Password:</p>
-                                            <button onClick={() => setPasswordBoxOpen(true)} className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 cursor-pointer">
-                                                Change
-                                            </button>
-                                        </li>
+                                        </li> */}
+                                        {
+
+                                            //change password
+                                            user?.authProvider === 'local' ?
+                                                <>
+                                                    <li className="flex justify-between">
+                                                        <p className="font-medium">Change Password:</p>
+                                                        <button onClick={() => setPasswordBoxOpen(true)} className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 cursor-pointer">
+                                                            Change
+                                                        </button>
+                                                    </li>
+                                                </>
+                                                : ""
+                                        }
                                         <li className="flex justify-between">
                                             <p className="font-medium">Logout:</p>
                                             <LogOutButton />
