@@ -9,12 +9,12 @@ const createUser = require('../controllers/userController/createUser');
 const signIn = require('../controllers/userController/signIn');
 const SignOut = require('../controllers/userController/SignOut');
 const Upload = require('../controllers/userController/Upload');
-const URL = require('../config/Url')
 const changePswrd = require('../controllers/userController/changePswrd');
 
 // multer
 const storage = require('../utils/multer')
 const multer = require('multer');
+const config = require('../config/Url');
 const upload = multer({ storage: storage })
 
 
@@ -47,12 +47,23 @@ userRouter.get('/google/callback',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
 
         })
-        console.log({ redirecturl: URL.FRONTEND_API_URL })
-        res.redirect(
-            process.env.NODE_ENV === 'development' ?
-                process.env.DEVELOPMENT_URL :
-                process.env.PRODUCTION_URL
-        );
+
+
+        const URL = {
+            dev: 'http://localhost:5173',
+            prod: 'https://quickbl0gs.netlify.app',
+        };
+
+        console.log({ dev: process.env.DEVELOPMENT_URL })
+        console.log({ prod: process.env.PRODUCTION_URL })
+        const redirectUrl = process.env.NODE_ENV === 'development' ? URL.dev : URL.prod;
+
+
+
+        console.log({ redirecturl: config.FRONTEND_URL });
+        res.redirect(redirectUrl);
+
+
     });
 
 

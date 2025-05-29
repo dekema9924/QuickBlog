@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const URL = require('../config/Url')
+const config = require('../config/Url')
 
-mongoose.connect(URL.MONGODBURL).then(() => {
+mongoose.connect(config.MONGODBURL).then(() => {
     console.log("MongoDB connected");
 })
