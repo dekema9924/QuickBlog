@@ -5,5 +5,4 @@ const APIURL = {
 
 }
 
-console.log({ urlconfig: APIURL.FRONTEND_API_URL })
 module.exports = APIURL

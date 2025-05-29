@@ -6,7 +6,9 @@ const passport = require("passport");
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: process.env.NODE_ENV === 'development'
+        ? "http://localhost:3000/auth/google/callback"
+        : "https://quickblog-cyo4.onrender.com/auth/google/callback"
 },
     async function (accessToken, refreshToken, profile, cb) {
         let email = profile.emails?.[0]?.value;
@@ -20,8 +22,6 @@ passport.use(new GoogleStrategy({
 
         try {
             let user = await User.findOne({ email, authProvider: 'google' });
-            console.log(user)
-
             if (!user) {
                 user = await User.create({
                     googleId: profile.id,
