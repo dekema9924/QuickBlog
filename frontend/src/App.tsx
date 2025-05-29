@@ -15,6 +15,7 @@ import { NormalRoutes } from "./ProtectiveRoutes/ProtectedRoute"
 import MembersPosts from "./pages/MembersPosts"
 
 function App() {
+
   useGetUser()
 
   const { isModalOpen } = useModalContext()

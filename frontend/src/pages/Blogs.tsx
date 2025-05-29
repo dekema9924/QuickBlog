@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import { APIURL } from '../config/Url';
+import { useSelector } from 'react-redux';
 
 export interface BlogDataInterface {
     _id: string;
@@ -24,6 +25,7 @@ export interface BlogDataInterface {
     coverImage: string
 }
 
+
 function Blogs() {
     // const { isDarkMode } = useThemeContext();
     const [allblogs, setAllBlogs] = useState<BlogDataInterface[]>([]);
@@ -33,6 +35,9 @@ function Blogs() {
     const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
     const currentBlogs = allblogs.slice(indexOfFirstBlog, indexOfLastBlog);
     const totalPages = Math.ceil(allblogs.length / blogsPerPage);
+    const user = useSelector((state: any) => state.user.user)
+
+
 
 
     const handleNextPage = () => {

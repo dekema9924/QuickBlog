@@ -6,7 +6,7 @@ import { APIURL } from '../config/Url'
 import axios from 'axios'
 import { setUser } from '../features/userSlice'
 import useGetUser from '../hooks/useGetUser'
-import { LoaderIcon } from 'react-hot-toast'
+import toast, { LoaderIcon } from 'react-hot-toast'
 import Password from './Password'
 import { useState } from 'react'
 
@@ -29,6 +29,14 @@ const Profile = () => {
         const file = fileInputRef.current?.files?.[0]
         if (!file) return;
 
+
+        // validate file extensions
+        const validExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+        const fileExtension = (file.name ?? '').split('.').pop()?.toLowerCase();
+
+        if (!fileExtension || !validExtensions.includes(fileExtension)) {
+            return toast.error("Invalid file extension. Only 'jpg', 'png', 'jpeg', or 'webp' allowed.");
+        }
 
         const formData = new FormData();
         if (file) {
