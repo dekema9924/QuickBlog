@@ -50,6 +50,8 @@ userRouter.get('/google/callback',
         res.redirect(URL.FRONTEND_API_URL);
     });
 
+console.log({ redirecturl: URL.FRONTEND_API_URL })
+
 
 
 
