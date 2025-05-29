@@ -69,8 +69,7 @@ function Blogs() {
                                     <div className='borderBackground flex items-center justify-center w-6 md:h-6 h-4 rounded-full'>
                                         <span className='bg-gray-600 w-2 h-2 rounded-full hover:bg-[#3aa0e4] block'></span>
                                     </div>
-                                    <h1 className='text-3xl font-bold my-5 ' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.title) }}
-                                    > </h1>
+                                    <h1 className='text-3xl font-bold my-5 ' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.title) }} />
                                 </div>
                                 <p className='gray-text text-xs md:my-1 flex items-center gap-4 md:w-fit'>
                                     posted by
