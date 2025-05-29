@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser')
 require('./Strategy/LocalStrategy')
 const cors = require('cors');
 const blogsRouter = require('./routes/blogsRouter');
+const config = require('./config/Url');
 
 
 // debugging
@@ -55,3 +56,5 @@ app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
 
+console.log({ env: process.env.NODE_ENV })
+console.log({ redirecturl: config.FRONTEND_URL });

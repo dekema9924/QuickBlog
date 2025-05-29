@@ -49,19 +49,7 @@ userRouter.get('/google/callback',
         })
 
 
-        const URL = {
-            dev: 'http://localhost:5173',
-            prod: 'https://quickbl0gs.netlify.app',
-        };
-
-        console.log({ dev: process.env.DEVELOPMENT_URL })
-        console.log({ prod: process.env.PRODUCTION_URL })
-        const redirectUrl = process.env.NODE_ENV === 'production' ? URL.prod : URL.dev;
-
-
-
-        console.log({ redirecturl: config.FRONTEND_URL });
-        res.redirect(redirectUrl);
+        res.redirect(config.FRONTEND_URL);
 
 
     });
