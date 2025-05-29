@@ -68,7 +68,7 @@ function SignUp() {
     }
     //google sign in
     const handleGoogleSignIn = () => {
-        window.open("http://localhost:3000/auth/google", "_self")
+        window.open(`${APIURL.baseUrl}/auth/google`, "_self")
     }
 
     return (

@@ -69,7 +69,7 @@ function SignIn() {
 
     //google sign in
     const handleGoogleSignIn = () => {
-        const newWindow = window.open("http://localhost:3000/auth/google", "_self");
+        const newWindow = window.open(`${APIURL.baseUrl}/auth/google`, "_self");
         if (!newWindow) {
             toast.error("Failed to open the authentication window.");
         }
