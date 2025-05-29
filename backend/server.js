@@ -13,9 +13,9 @@ const URL = require('./config/Url');
 
 
 // debugging
-// console.log(process.env.NODE_ENV)
-// console.log({ url: URL.FRONTEND_API_URL })
-// console.log({ db: URL.MONGODBURL })
+console.log(process.env.NODE_ENV)
+console.log({ url: URL.FRONTEND_API_URL })
+console.log({ db: URL.MONGODBURL })
 
 
 const allowedOrigins = [
