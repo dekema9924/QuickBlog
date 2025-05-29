@@ -10,12 +10,11 @@ const signIn = require('../controllers/userController/signIn');
 const SignOut = require('../controllers/userController/SignOut');
 const Upload = require('../controllers/userController/Upload');
 const changePswrd = require('../controllers/userController/changePswrd');
+const config = require('../config/Url');
+
 
 // multer
-const storage = require('../utils/multer')
-const multer = require('multer');
-const config = require('../config/Url');
-const upload = multer({ storage: storage })
+const parser = require('../utils/multer');
 
 
 
@@ -25,7 +24,7 @@ userRouter.get('/profile', verifyToken, userProfile);
 userRouter.post('/signup', createUser);
 userRouter.post('/signin', signIn)
 userRouter.post('/signout', verifyToken, SignOut)
-userRouter.post('/upload', verifyToken, upload.single('avatar'), Upload)
+userRouter.post('/upload', verifyToken, parser.single('avatar'), Upload)
 userRouter.post('/changepassword', verifyToken, changePswrd)
 
 
