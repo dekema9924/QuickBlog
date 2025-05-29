@@ -48,7 +48,7 @@ userRouter.get('/google/callback',
 
         })
         console.log({ redirecturl: URL.FRONTEND_API_URL })
-        res.redirect('quickbl0gs.netlify.app');
+        res.redirect('https://quickbl0gs.netlify.app');
     });
 
 
