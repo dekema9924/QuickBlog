@@ -20,7 +20,7 @@ const URL = require('./config/Url');
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://quickblog.netlify.app",
+    "https://quickbl0gs.netlify.app",
     "https://api.cloudinary.com/v1_1"
 ];
 // CORS configuration
@@ -45,6 +45,11 @@ app.use('/auth', userRouter)
 app.use('/blogs', blogsRouter)
 
 
+
+//test route
+app.get('/test', (req, res) => {
+    res.send('hello')
+})
 
 // Start the server
 app.listen(process.env.PORT, () => {

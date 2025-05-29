@@ -10,11 +10,11 @@ const signIn = require('../controllers/userController/signIn');
 const SignOut = require('../controllers/userController/SignOut');
 const Upload = require('../controllers/userController/Upload');
 const URL = require('../config/Url')
+const changePswrd = require('../controllers/userController/ChangePswrd');
 
 // multer
 const storage = require('../utils/multer')
 const multer = require('multer');
-const changePswrd = require('../controllers/userController/ChangePswrd');
 const upload = multer({ storage: storage })
 
 
