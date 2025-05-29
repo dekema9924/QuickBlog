@@ -56,7 +56,7 @@ userRouter.get('/google/callback',
 
         console.log({ dev: process.env.DEVELOPMENT_URL })
         console.log({ prod: process.env.PRODUCTION_URL })
-        const redirectUrl = process.env.NODE_ENV === 'development' ? URL.dev : URL.prod;
+        const redirectUrl = process.env.NODE_ENV === 'production' ? URL.prod : URL.dev;
 
 
 
