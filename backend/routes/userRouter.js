@@ -42,13 +42,17 @@ userRouter.get('/google/callback',
         const token = createToken(req.user);
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+            secure: process.env.NODE_ENV == 'development' ? false : true,
+            sameSite: process.env.NODE_ENV == 'production' ? 'None' : 'Lax',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
 
         })
         console.log({ redirecturl: URL.FRONTEND_API_URL })
-        res.redirect('https://quickbl0gs.netlify.app');
+        res.redirect(
+            process.env.NODE_ENV === 'development' ?
+                process.env.DEVELOPMENT_URL :
+                process.env.PRODUCTION_URL
+        );
     });
 
 

@@ -9,7 +9,6 @@ var cookieParser = require('cookie-parser')
 require('./Strategy/LocalStrategy')
 const cors = require('cors');
 const blogsRouter = require('./routes/blogsRouter');
-const URL = require('./config/Url');
 
 
 // debugging
@@ -55,3 +54,10 @@ app.get('/test', (req, res) => {
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
+
+console.log(process.env.NODE_ENV)
+console.log(
+    process.env.NODE_ENV === 'development' ?
+        process.env.DEVELOPMENT_URL :
+        process.env.PRODUCTION_URL
+)
