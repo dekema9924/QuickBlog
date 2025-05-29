@@ -47,10 +47,10 @@ userRouter.get('/google/callback',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
 
         })
+        console.log({ redirecturl: URL.FRONTEND_API_URL })
         res.redirect(URL.FRONTEND_API_URL);
     });
 
-console.log({ redirecturl: URL.FRONTEND_API_URL })
 
 
 
