@@ -9,12 +9,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import { APIURL } from '../config/Url';
-import { useSelector } from 'react-redux';
 
 export interface BlogDataInterface {
     _id: string;
     title: string;
-    content: string;  // Assuming content is HTML string
+    content: string;
     createdAt: string;
     author: {
         username: string;
@@ -35,7 +34,6 @@ function Blogs() {
     const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
     const currentBlogs = allblogs.slice(indexOfFirstBlog, indexOfLastBlog);
     const totalPages = Math.ceil(allblogs.length / blogsPerPage);
-    const user = useSelector((state: any) => state.user.user)
 
 
 
