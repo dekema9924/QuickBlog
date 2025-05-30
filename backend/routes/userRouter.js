@@ -11,10 +11,8 @@ const SignOut = require('../controllers/userController/SignOut');
 const Upload = require('../controllers/userController/Upload');
 const changePswrd = require('../controllers/userController/changePswrd');
 const config = require('../config/Url');
-
-
-// multer
 const parser = require('../utils/multer');
+const subscribe = require('../controllers/userController/subscribe');
 
 
 
@@ -26,6 +24,7 @@ userRouter.post('/signin', signIn)
 userRouter.post('/signout', verifyToken, SignOut)
 userRouter.post('/upload', verifyToken, parser.single('avatar'), Upload)
 userRouter.post('/changepassword', verifyToken, changePswrd)
+userRouter.post('/subscribe', subscribe)
 
 
 
@@ -52,10 +51,6 @@ userRouter.get('/google/callback',
 
 
     });
-
-
-
-
 
 
 module.exports = userRouter;

@@ -56,5 +56,5 @@ app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
 
-console.log({ env: process.env.NODE_ENV })
-console.log({ redirecturl: config.FRONTEND_URL });
+// console.log({ env: process.env.NODE_ENV })
+// console.log({ redirecturl: config.FRONTEND_URL });

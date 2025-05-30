@@ -45,4 +45,19 @@ export const changePassword = async (new_password: string, confirm_password: str
 
     }
 
-}   
+}
+
+
+export const subscribe = async (UserEmail: string) => {
+    try {
+        await axios.post(`${APIURL.baseUrl}/auth/subscribe`, { UserEmail }, { withCredentials: true }).then((result) => {
+            if (result.status === 200) {
+                toast.success(result.data.message)
+            }
+        })
+    } catch (error) {
+        handleAxiosError(error, 'Failed to perform action');
+
+    }
+
+}
