@@ -18,6 +18,8 @@ export interface BlogDataInterface {
     author: {
         username: string;
         profilePicture: string;
+        role: string;
+        isAdmin: boolean
     };
     tag: string;
     user: string;

@@ -1,6 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import '../styles/MyEditor.css'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Subscribe from '../components/Subscribe'
 import Line from '../components/Line'
 import axios from 'axios'
@@ -35,7 +35,6 @@ const BlogDetails = () => {
     const navigate = useNavigate()
     const readTime = blogData ? `${Math.ceil(blogData.content.length / 800)} min read` : ''
     const [coverImageFile, setCoverImageFile] = useState<File | null>(null)
-
 
     useEffect(() => {
         axios.get(`${APIURL.baseUrl}/blogs/${id}`, { withCredentials: true }).then((res) => {
@@ -92,10 +91,10 @@ const BlogDetails = () => {
         <>
             {/* Main content */}
             <div className={`md:w-11/12 mx-auto ${isEditModalOpen ? 'opacity-20 pointer-events-none' : ''}`}>
-                <Link to='/' className='flex items-center gap-2 mt-4'>
+                <button onClick={() => navigate(-1)} className='flex cursor-pointer items-center gap-2 mt-4'>
                     <ArrowBackIcon className='cursor-pointer border rounded-full' />
                     <span className='text-sm'>Back</span>
-                </Link>
+                </button>
 
                 <section className='mt-14 md:mt-20 md:w-10/12 mx-auto mb-10 flex flex-col items-center'>
 

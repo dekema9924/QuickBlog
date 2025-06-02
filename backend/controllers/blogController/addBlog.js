@@ -13,17 +13,19 @@ const addBlogs = async (req, res) => {
 
         //get author
         await Userdb.findById(req.user.id).then(async (result) => {
-            const newBlog = new Blogdb({
+            const newBlog = await new Blogdb({
                 title: content.slice(0, 40),
                 coverImage,
                 content,
                 user: req.user.id,
                 author: {
                     username: result.username,
-                    profilePicture: result.profilePicture
-
+                    profilePicture: result.profilePicture,
+                    role: result.role,
+                    isAdmin: result.isAdmin
                 },
             });
+
 
             const savedBlog = await newBlog.save();
 

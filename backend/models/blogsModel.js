@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const isAdmin = require('../middleware/IsAdmin');
 
 const blogSchema = new mongoose.Schema({
     title: {
@@ -26,6 +27,13 @@ const blogSchema = new mongoose.Schema({
             type: String,
             default: "", // optional default
         },
+        isAdmin: {
+            type: Boolean
+        },
+        role: {
+            type: String,
+            enum: ['standard', 'member', 'admin']
+        }
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,

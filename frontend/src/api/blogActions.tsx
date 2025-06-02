@@ -61,3 +61,18 @@ export const subscribe = async (UserEmail: string) => {
     }
 
 }
+
+// export const saveBlog = async (id: string) => {
+//     try {
+//         await axios.post(`${APIURL.baseUrl}/bookmark/addbookmark`, { id }, { withCredentials: true }).then((result) => {
+//             if (result.status === 200) {
+//                 toast.success(result.data.message)
+//             }
+//         })
+//     } catch (error) {
+//         handleAxiosError(error, 'Failed to perform action');
+
+//     }
+
+// }
+

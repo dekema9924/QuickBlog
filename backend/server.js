@@ -9,7 +9,7 @@ var cookieParser = require('cookie-parser')
 require('./Strategy/LocalStrategy')
 const cors = require('cors');
 const blogsRouter = require('./routes/blogsRouter');
-const config = require('./config/Url');
+// const config = require('./config/Url');
 
 
 // debugging

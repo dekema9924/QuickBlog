@@ -63,15 +63,14 @@ const Header = () => {
                 <nav className={` absolute z-50 ${isDarkMode == 'light' ? "lightmode shadow-2xl " : "borderBackground"} top-15 right-0 w-66 text-white rounded-md transform origin-top transition-all duration-500 ease-in-out ${isOpen ? "scale-y-100 opacity-100 py-7" : "scale-y-0 opacity-0 py-0 pointer-events-none"
                     }`}>
                     <ul className="flex items-end mr-6 gap-6 flex-col">
-                        <Link onClick={() => handleMenu()} to={'/'}>Home</Link>
-                        <Link onClick={() => handleMenu()} to={'/membership'}>Membership</Link>
-                        <Link onClick={() => handleMenu()} to={'/standardposts'}>Standard Post</Link>
+                        <Link onClick={() => handleMenu()} to={'/'}>Standard Post</Link>
                         <Link onClick={() => handleMenu()} to={'/memberspost'}>Members Post</Link>
+
                         <Line className='my-2 w-11/12' />
                         {
                             user?._id && (
                                 <>
-                                    <Link onClick={() => handleMenu()} to={'/my-posts'}>My Posts</Link>
+                                    {/* <Link onClick={() => handleMenu()} to={'/my-posts'}>My Posts</Link> */}
                                     <Link onClick={() => handleMenu()} to={'/profile'}>My Profile</Link>
                                     <LogOutButton />
 
